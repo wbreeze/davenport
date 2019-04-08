@@ -12,3 +12,13 @@ As such, it contains a taylored
 implementation of an algorithm for maximum flow through a network.
 The algorithm used is highest label preflow push.
 
+## Building
+
+This follows the GNU AutoConf convention. From the root of the source tree
+(e.g. ~/Davenport):
+- `./configure`
+- `make`
+
+To run tests:
+- `cd tests`
+- `make check`
