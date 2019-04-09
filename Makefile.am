@@ -1,4 +1,2 @@
-SUBDIRS = src tests
-noinst_LIBRARIES = libdavenport.a
-libdavenport_a_SOURCES = [src/davenport.c]
+SUBDIRS = src tests .
 ACLOCAL_AMFLAGS = -I m4
