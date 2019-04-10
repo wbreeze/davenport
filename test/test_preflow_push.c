@@ -1,8 +1,9 @@
+#include <cutter.h>
 #include <stdio.h>
-#include "check_davenport.h"
 #include "../src/preflow_push.c"
 
-START_TEST(check_push_excess)
+void test_push_excess(void);
+void test_push_excess(void)
 {
   int node_ct = 2;
   int excess[2];
@@ -16,14 +17,14 @@ START_TEST(check_push_excess)
   capacity[RCI(from,to,node_ct)] = send + 1;
   flow[RCI(from,to,node_ct)] = 0;
   push(capacity, flow, excess, node_ct, from, to);
-  ck_assert_int_eq(0, excess[from]);
-  ck_assert_int_eq(send, excess[to]);
-  ck_assert_int_eq(send, flow[RCI(from,to,node_ct)]);
-  ck_assert_int_eq(-send, flow[RCI(to,from,node_ct)]);
+  cut_assert_equal_int(0, excess[from]);
+  cut_assert_equal_int(send, excess[to]);
+  cut_assert_equal_int(send, flow[RCI(from,to,node_ct)]);
+  cut_assert_equal_int(-send, flow[RCI(to,from,node_ct)]);
 }
-END_TEST
 
-START_TEST(check_push_capacity)
+void test_push_capacity(void);
+void test_push_capacity(void)
 {
   int node_ct = 2;
   int excess[2];
@@ -38,14 +39,14 @@ START_TEST(check_push_capacity)
   capacity[RCI(from,to,node_ct)] = cap;
   flow[RCI(from,to,node_ct)] = 0;
   push(capacity, flow, excess, node_ct, from, to);
-  ck_assert_int_eq(send - cap, excess[from]);
-  ck_assert_int_eq(cap, excess[to]);
-  ck_assert_int_eq(cap, flow[RCI(from,to,node_ct)]);
-  ck_assert_int_eq(-cap, flow[RCI(to,from,node_ct)]);
+  cut_assert_equal_int(send - cap, excess[from]);
+  cut_assert_equal_int(cap, excess[to]);
+  cut_assert_equal_int(cap, flow[RCI(from,to,node_ct)]);
+  cut_assert_equal_int(-cap, flow[RCI(to,from,node_ct)]);
 }
-END_TEST
 
-START_TEST(check_push_residual)
+void test_push_residual(void);
+void test_push_residual(void)
 {
   int node_ct = 2;
   int excess[2];
@@ -62,8 +63,8 @@ START_TEST(check_push_residual)
   capacity[RCI(from,to,node_ct)] = cap;
   flow[RCI(from,to,node_ct)] = existing;
   push(capacity, flow, excess, node_ct, from, to);
-  ck_assert_int_eq(send - residual, excess[from]);
-  ck_assert_int_eq(residual, excess[to]);
+  cut_assert_equal_int(send - residual, excess[from]);
+  cut_assert_equal_int(residual, excess[to]);
   printf("FLOW:\n");
   for(int i = 0; i < node_ct; ++i) {
     for (int j = 0; j < node_ct; ++j) {
@@ -71,22 +72,6 @@ START_TEST(check_push_residual)
     }
     printf("\n");
   }
-  ck_assert_int_eq(cap, flow[RCI(from,to,node_ct)]);
-  ck_assert_int_eq(-residual, flow[RCI(to,from,node_ct)]);
-}
-END_TEST
-
-Suite *make_preflow_push_suite(void)
-{
-  Suite *s;
-  TCase *tc;
-
-  s = suite_create("Preflow Push");
-  tc = tcase_create("Core");
-
-  suite_add_tcase (s, tc);
-  tcase_add_test(tc, check_push_excess);
-  tcase_add_test(tc, check_push_capacity);
-  tcase_add_test(tc, check_push_residual);
-  return s;
+  cut_assert_equal_int(cap, flow[RCI(from,to,node_ct)]);
+  cut_assert_equal_int(-residual, flow[RCI(to,from,node_ct)]);
 }
