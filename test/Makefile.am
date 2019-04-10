@@ -8,4 +8,5 @@ if WITH_CUTTER
 endif
 
 AM_CPPFLAGS = $(CUTTER_CFLAGS) -I$(top_srcdir)/src
+AM_LDFLAGS = -module -avoid-version -no-undefined
 AM_LIBS = $(CUTTER_LIBS) $(top_builddir)/src/libdavenport.la
