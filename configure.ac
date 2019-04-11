@@ -27,7 +27,7 @@ AC_CHECK_HEADERS([stdlib.h])
 AC_FUNC_MALLOC
 
 # Output files
-AC_CONFIG_HEADERS([src/config.h])
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
   Makefile
   src/Makefile
