@@ -1,5 +1,6 @@
+#include <check.h>
 #include <stdlib.h>
-#include "check_davenport.h"
+#include "check_preflow_push.h"
 #include "../src/davenport.h"
 
 START_TEST(check_davenport_create)

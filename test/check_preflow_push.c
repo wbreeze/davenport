@@ -1,6 +1,7 @@
+#include <check.h>
 #include <stdio.h>
-#include "check_davenport.h"
-#include "../src/preflow_push.c"
+#include "check_preflow_push.h"
+#include "../src/preflow_push.h"
 
 START_TEST(check_push_excess)
 {
