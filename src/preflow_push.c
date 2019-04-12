@@ -9,8 +9,7 @@
  - the capacity and flow edge matrices are stored as arrays
 */
 
-#define MIN(a,b) ((a) < (b) ? (a) : (b))
-#define RCI(r,c,ct) ((r) * (ct) + (c))
+#include "network.h"
 
 /*
  Push excess flow from node u to node v.
