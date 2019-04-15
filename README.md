@@ -20,5 +20,5 @@ This follows the GNU AutoConf convention. From the root of the source tree
 - `make`
 
 To run tests:
-- `cd tests`
+- `cd test` (optional)
 - `make check`

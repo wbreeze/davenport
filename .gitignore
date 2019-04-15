@@ -108,4 +108,4 @@ dkms.conf
 ## other files
 *.log
 *.trs
-tests/check_davenport
+test/check_davenport
