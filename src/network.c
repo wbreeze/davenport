@@ -23,6 +23,7 @@ void node_array_print(const int *nodes, int node_ct)
 {
   for(int i = 0; i < node_ct; ++i)
     printf("%3d ", nodes[i]);
+  printf("\n");
 }
 
 void node_array_printl(const int *nodes, int node_ct, char *label)
