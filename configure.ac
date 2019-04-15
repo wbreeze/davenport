@@ -11,11 +11,10 @@ LT_INIT
 
 # Checks for programs.
 AC_PROG_CC
-m4_ifdef([AC_CHECK_CUTTER], [AC_CHECK_CUTTER], [ac_cv_use_cutter="no"])
-AM_CONDITIONAL([WITH_CUTTER], [test "$ac_cv_use_cutter" != "no"])
-m4_ifdef([AC_CHECK_COVERAGE], [AC_CHECK_COVERAGE])
+AC_PROG_LIBTOOL
 
 # Checks for libraries
+AC_CHECK_CUTTER
 
 # Checks for header files.
 AC_HEADER_STDC

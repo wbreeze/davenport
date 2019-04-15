@@ -1,10 +1,12 @@
-#ifndef CHECK_HELPER_H
-#define CHECK_HELPER_H
+#ifndef TEST_HELPER_H
+#define TEST_HELPER_H
 
-#include <check.h>
+#include <string.h>
 
-#define check_assert_int_array_eq(expected, have, length) \
-  ck_assert_mem_eq(expected, have, (length) * sizeof(int))
+#define assert_equal_int_array(expected, have, length) \
+  cut_assert_equal_memory( \
+    expected, (length) * sizeof(int), have, (length) * sizeof(int) \
+  )
 
 #define copy_int_array(dest, src, length) \
   memcpy(dest, src, (length) * sizeof(int))
