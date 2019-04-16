@@ -90,3 +90,15 @@ void discharge(const int * capacity, int * flow, int *excess,
     }
   }
 }
+
+/*
+ Push initial flow from the source into the network, at maximum capacity.
+*/
+void saturate_from_source(const int *capacity, int *flow, int *excess,
+  int node_ct, int source)
+{
+  excess[source] = INT_MAX;
+  for(int v = 0; v < node_ct; ++v)
+    push(capacity, flow, excess, node_ct, source, v);
+  excess[source] = 0;
+}
