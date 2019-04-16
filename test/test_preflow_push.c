@@ -363,3 +363,13 @@ void test_saturate_max_from_source(void)
   cut_assert_equal_int(-cap_2_expected, n->flow[RCI(2, from, node_ct)]);
   cut_assert_equal_int(0, n->flow[RCI(3, from, node_ct)]);
 }
+
+void test_preflow_push_new(void)
+{
+  PreflowPush *p;
+
+  p = preflow_push_new(NULL, 2);
+  cut_assert(p != NULL);
+  p = preflow_push_free(p);
+  cut_assert(p == NULL);
+}

@@ -4,14 +4,16 @@
  that computes maximum flow using highest label push-relabel algorithm.
 
  Major differences are
- - the source is always the first node
- - the sink is always the last node
  - the capacity and flow edge matrices are stored as arrays
+ - the algorithm will function on a subset of the network.
 */
 
 #include <assert.h>
 #include <limits.h>
+#include <stdlib.h>
+#include <string.h>
 #include "network.h"
+#include "preflow_push.h"
 
 /*
  Compute residual flow on an edge. The residual is the capacity minus
@@ -101,4 +103,86 @@ void saturate_from_source(const int *capacity, int *flow, int *excess,
   for(int v = 0; v < node_ct; ++v)
     push(capacity, flow, excess, node_ct, source, v);
   excess[source] = 0;
+}
+
+struct PreflowPush {
+  int used;
+  int node_ct;
+  const int *capacity;
+  int *excess;
+  int *seen;
+  int *sequence;
+};
+
+/*
+ The PreflowPush structure contains the capacity network, node count,
+   and buffers for internal computations.
+ Use this to allocate one.
+ You promise not to free the storage given by capacity before freeing the
+   returned structure using preflow_push_free().
+ You promise that the size of storage allocated for capacity is at minimim,
+   node_ct * node_ct * sizeof(int)
+ You set capacity for an edge from u to v using index, RCI(u,v,node_ct) defined
+   in network.h. For example, "capacity[RCI(0,3,4)] = 6" sets capacity
+   on the edge from node 0 to node 3 to value, 6 in a network of four nodes.
+*/
+PreflowPush *preflow_push_new(const int *capacity, int node_ct)
+{
+  PreflowPush *p = malloc(sizeof(PreflowPush));
+  p->node_ct = node_ct;
+  p->capacity = capacity;
+  p->seen = node_array_calloc(node_ct);
+  p->excess = node_array_calloc(node_ct);
+  p->sequence = node_array_calloc(node_ct);
+  p->used = 0;
+  return p;
+}
+
+/*
+ Free-up memory used by PreflowPush.
+ After this, the address referenced by "p" is no longer valid for reference.
+ For convenience, this returns NULL; so, "p = preflow_push_free(p);" will
+ clear p to help prevent accidents.
+*/
+void *preflow_push_free(PreflowPush *p)
+{
+  free(p->seen);
+  free(p->excess);
+  free(p->sequence);
+  free(p);
+  return NULL;
+}
+
+/*
+ Reset the scratch buffers used by the preflow push
+*/
+void reset(PreflowPush *p)
+{
+  // this is just a little optimization to prevent resetting on first use.
+  if (p->used) {
+    memset(p->seen, 0, p->node_ct * sizeof(int));
+    memset(p->excess, 0, p->node_ct * sizeof(int));
+  }
+  p->used = 1;
+}
+
+/*
+ Compute maximum flow over a subset of the network, given by list,
+   with existing flow to simulate reduced capacities. Provide labels
+   initialized with distance to the sink.
+ The source and sink values are node indexes.
+
+ TODO: future
+ The list is of node indexes that comprise a subset of the network.
+   No flow will be pushed through nodes not in the list.
+   The list must *not* include the source and sink nodes.
+ The list_ct value is the number of nodes in the list.
+*/
+int max_flow_reduced_caps(PreflowPush *p, int *flow, int *labels,
+  int source, int sink) //, int *list, int list_ct)
+{
+  assert(source < p->node_ct);
+  assert(sink < p->node_ct);
+  reset(p);
+  return 0;
 }
