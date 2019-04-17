@@ -105,6 +105,20 @@ void saturate_from_source(const int *capacity, int *flow, int *excess,
   excess[source] = 0;
 }
 
+/*
+ Initialize list of node_ct - 2 nodes that includes all nodes
+ except the source and sink nodes
+*/
+void initialize_list(int *list, int node_ct, int source, int sink)
+{
+  int offset = 0;
+  for(int i = 0; i < node_ct; ++i) {
+    if (i != source && i != sink) {
+      list[offset++] = i;
+    }
+  }
+}
+
 struct PreflowPush {
   int used;
   int node_ct;
@@ -184,5 +198,7 @@ int max_flow_reduced_caps(PreflowPush *p, int *flow, int *labels,
   assert(source < p->node_ct);
   assert(sink < p->node_ct);
   reset(p);
+  saturate_from_source(p->capacity, flow, p->excess, p->node_ct, source);
+
   return 0;
 }
