@@ -119,6 +119,18 @@ void initialize_list(int *list, int node_ct, int source, int sink)
   }
 }
 
+/*
+ Move node index at offset p to front of list, offset 0
+*/
+void moveToFront(int *list, int p)
+{
+  int hold = list[p];
+  for(int i = p; 0 < i; --i) {
+    list[i] = list[i-1];
+  }
+  list[0] = hold;
+}
+
 struct PreflowPush {
   int used;
   int node_ct;
@@ -143,12 +155,12 @@ struct PreflowPush {
 PreflowPush *preflow_push_new(const int *capacity, int node_ct)
 {
   PreflowPush *p = malloc(sizeof(PreflowPush));
+  p->used = 0;
   p->node_ct = node_ct;
   p->capacity = capacity;
-  p->seen = node_array_calloc(node_ct);
   p->excess = node_array_calloc(node_ct);
-  p->sequence = node_array_calloc(node_ct);
-  p->used = 0;
+  p->seen = node_array_calloc(node_ct);
+  p->sequence = node_array_calloc(node_ct-2);
   return p;
 }
 
@@ -192,13 +204,29 @@ void reset(PreflowPush *p)
    The list must *not* include the source and sink nodes.
  The list_ct value is the number of nodes in the list.
 */
-int max_flow_reduced_caps(PreflowPush *p, int *flow, int *labels,
+int max_flow_reduced_caps(PreflowPush *pp, int *flow, int *labels,
   int source, int sink) //, int *list, int list_ct)
 {
-  assert(source < p->node_ct);
-  assert(sink < p->node_ct);
-  reset(p);
-  saturate_from_source(p->capacity, flow, p->excess, p->node_ct, source);
+  assert(source < pp->node_ct);
+  assert(sink < pp->node_ct);
+  reset(pp);
+  saturate_from_source(pp->capacity, flow, pp->excess, pp->node_ct, source);
+  initialize_list(pp->sequence, pp->node_ct, source, sink);
+  labels[source] = pp->node_ct;
 
-  return 0;
+  int p = 0;
+  int internal_ct = pp->node_ct - 2;
+  while (p < internal_ct) {
+    int u = pp->sequence[p];
+    int old_label = labels[u];
+    discharge(pp->capacity, flow, pp->excess, labels, pp->seen, pp->node_ct, u);
+    if (labels[u] > old_label) {
+      moveToFront(pp->sequence, p);
+      p = 0;
+    } else {
+      p += 1;
+    }
+  }
+
+  return pp->excess[sink];
 }
