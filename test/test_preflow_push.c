@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <cutter.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -7,6 +8,7 @@
 #include "../src/preflow_push.h"
 
 typedef struct Network {
+  int node_ct;
   int *excess;
   int *labels;
   int *seen;
@@ -19,6 +21,7 @@ typedef struct Network {
 Network *network_new(int node_ct)
 {
   Network *network = (Network *)malloc(sizeof(Network));
+  network->node_ct = node_ct;
   network->excess = node_array_calloc(node_ct);
   network->labels = node_array_calloc(node_ct);
   network->seen = node_array_calloc(node_ct);
@@ -364,6 +367,40 @@ void test_saturate_max_from_source(void)
   cut_assert_equal_int(0, n->flow[RCI(3, from, node_ct)]);
 }
 
+void test_initialize_list_ends(void)
+{
+  int node_ct = 8;
+  int source = 0;
+  int sink = 7;
+  int *list = node_array_calloc(node_ct);
+  initialize_list(list, node_ct, source, sink);
+  cut_assert_equal_int(1, list[0]);
+  cut_assert_equal_int(6, list[5]);
+  for (int i = 0; i < node_ct - 2; ++i)
+  {
+    cut_assert_not_equal_int(source, list[i]);
+    cut_assert_not_equal_int(sink, list[i]);
+  }
+  free(list);
+}
+
+void test_initialize_list_middle(void)
+{
+  int node_ct = 8;
+  int source = 3;
+  int sink = 4;
+  int *list = node_array_calloc(node_ct);
+  initialize_list(list, node_ct, source, sink);
+  cut_assert_equal_int(0, list[0]);
+  cut_assert_equal_int(7, list[5]);
+  for (int i = 0; i < node_ct - 2; ++i)
+  {
+    cut_assert_not_equal_int(source, list[i]);
+    cut_assert_not_equal_int(sink, list[i]);
+  }
+  free(list);
+}
+
 void test_preflow_push_new(void)
 {
   PreflowPush *p;
@@ -372,4 +409,135 @@ void test_preflow_push_new(void)
   cut_assert(p != NULL);
   p = preflow_push_free(p);
   cut_assert(p == NULL);
+}
+
+void test_preflow_push_network_1(void)
+{
+  int node_ct = 4;
+  Network *n = network_new(node_ct);
+  n->capacity[RCI(0,1,node_ct)] = 4;
+  n->capacity[RCI(1,2,node_ct)] = 3;
+  n->capacity[RCI(2,3,node_ct)] = 2;
+  PreflowPush *p = preflow_push_new(n->capacity, node_ct);
+  int flow = max_flow_reduced_caps(p, n->flow, n->labels, 0, 3);
+  cut_assert_equal_int(2, flow);
+}
+
+void test_preflow_push_network_2(void)
+{
+  int node_ct = 4;
+  Network *n = network_new(node_ct);
+  n->capacity[RCI(1,0,node_ct)] = 4;
+  n->capacity[RCI(0,3,node_ct)] = 3;
+  n->capacity[RCI(3,2,node_ct)] = 2;
+  PreflowPush *p = preflow_push_new(n->capacity, node_ct);
+  int flow = max_flow_reduced_caps(p, n->flow, n->labels, 1, 2);
+  cut_assert_equal_int(2, flow);
+}
+
+void test_preflow_push_network_3(void)
+{
+  int node_ct = 6;
+  Network *n = network_new(node_ct);
+  n->capacity[RCI(0,1,node_ct)] = 4;
+  n->capacity[RCI(1,3,node_ct)] = 3;
+  n->capacity[RCI(3,5,node_ct)] = 2;
+  n->capacity[RCI(0,2,node_ct)] = 7;
+  n->capacity[RCI(2,4,node_ct)] = 6;
+  n->capacity[RCI(4,5,node_ct)] = 5;
+  PreflowPush *p = preflow_push_new(n->capacity, node_ct);
+  int flow = max_flow_reduced_caps(p, n->flow, n->labels, 0, 5);
+  cut_assert_equal_int(7, flow);
+}
+
+void test_preflow_push_network_4(void)
+{
+  int node_ct = 6;
+  Network *n = network_new(node_ct);
+  n->capacity[RCI(0,1,node_ct)] = 6;
+  n->capacity[RCI(1,3,node_ct)] = 5;
+  n->capacity[RCI(3,5,node_ct)] = 1;
+  n->capacity[RCI(3,2,node_ct)] = 4;
+  n->capacity[RCI(2,4,node_ct)] = 3;
+  n->capacity[RCI(4,5,node_ct)] = 2;
+  PreflowPush *p = preflow_push_new(n->capacity, node_ct);
+  int flow = max_flow_reduced_caps(p, n->flow, n->labels, 0, 5);
+  cut_assert_equal_int(3, flow);
+}
+
+void test_preflow_push_network_5(void)
+{
+  int node_ct = 4;
+  Network *n = network_new(node_ct);
+  n->capacity[RCI(0,1,node_ct)] = 4;
+  n->capacity[RCI(1,2,node_ct)] = 3;
+  n->capacity[RCI(2,3,node_ct)] = 4;
+  PreflowPush *p = preflow_push_new(n->capacity, node_ct);
+  int flow = max_flow_reduced_caps(p, n->flow, n->labels, 0, 3);
+  cut_assert_equal_int(3, flow);
+}
+
+void test_preflow_push_network_cycles_1(void)
+{
+  int node_ct = 7;
+  Network *n = network_new(node_ct);
+  n->capacity[RCI(0,1,node_ct)] = 2;
+  n->capacity[RCI(0,2,node_ct)] = 3;
+  n->capacity[RCI(2,1,node_ct)] = 4;
+  n->capacity[RCI(1,3,node_ct)] = 6;
+  n->capacity[RCI(3,2,node_ct)] = 4;
+  n->capacity[RCI(3,4,node_ct)] = 8;
+  n->capacity[RCI(4,5,node_ct)] = 4;
+  n->capacity[RCI(5,3,node_ct)] = 4;
+  n->capacity[RCI(4,6,node_ct)] = 3;
+  n->capacity[RCI(5,6,node_ct)] = 2;
+  PreflowPush *p = preflow_push_new(n->capacity, node_ct);
+  int flow = max_flow_reduced_caps(p, n->flow, n->labels, 0, 6);
+  cut_assert_equal_int(5, flow);
+}
+
+void initialize_multilayer_capacities(Network *n)
+{
+  assert(10 <= n->node_ct);
+  for(int i = 1; i <= 3; ++i) {
+    n->capacity[RCI(0,i,n->node_ct)] = 4;
+    for(int j = 4; j <= 6; ++j) {
+      n->capacity[RCI(i,j,n->node_ct)] = 1;
+    }
+  }
+  n->capacity[RCI(5,4,n->node_ct)] = 1;
+  n->capacity[RCI(5,6,n->node_ct)] = 1;
+  n->capacity[RCI(5,8,n->node_ct)] = 1;
+  n->capacity[RCI(4,7,n->node_ct)] = 4;
+  n->capacity[RCI(6,8,n->node_ct)] = 6;
+  n->capacity[RCI(7,9,n->node_ct)] = 6;
+  n->capacity[RCI(8,9,n->node_ct)] = 8;
+}
+
+void test_preflow_push_network_multilayer(void)
+{
+  int node_ct = 10;
+  Network *n = network_new(node_ct);
+  initialize_multilayer_capacities(n);
+  PreflowPush *p = preflow_push_new(n->capacity, node_ct);
+  int flow = max_flow_reduced_caps(p, n->flow, n->labels, 0, 9);
+  cut_assert_equal_int(9, flow);
+}
+
+void test_preflow_push_network_multilayer_labeled(void)
+{
+  int node_ct = 10;
+  Network *n = network_new(node_ct);
+  initialize_multilayer_capacities(n);
+  n->labels[7] = 1;
+  n->labels[8] = 1;
+  n->labels[4] = 2;
+  n->labels[5] = 2;
+  n->labels[6] = 2;
+  n->labels[1] = 3;
+  n->labels[2] = 3;
+  n->labels[3] = 3;
+  PreflowPush *p = preflow_push_new(n->capacity, node_ct);
+  int flow = max_flow_reduced_caps(p, n->flow, n->labels, 0, 9);
+  cut_assert_equal_int(9, flow);
 }

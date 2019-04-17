@@ -10,5 +10,6 @@ void discharge(const int *capacity, int *flow, int *excess, int *labels,
   int *seen, int node_ct, int u);
 void saturate_from_source(const int *capacity, int *flow, int *excess,
   int node_ct, int u);
+void initialize_list(int *list, int node_ct, int source, int sink);
 
 #endif
