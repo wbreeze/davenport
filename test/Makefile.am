@@ -10,6 +10,7 @@ LIBS = $(CUTTER_LIBS) $(top_builddir)/src/libdavenport.la
 AM_LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined
 
 test_davenport_la_SOURCES = \
+  test_helper.c \
   test_davenport.c \
   test_preflow_push.c
 

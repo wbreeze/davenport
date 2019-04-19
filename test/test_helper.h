@@ -15,4 +15,18 @@
 #define set_int_array(array, value, length) \
   for(int i = 0; i < length; ++i) array[i] = value;
 
+typedef struct {
+  int node_ct;
+  int *excess;
+  int *labels;
+  int *seen;
+  int *node_scratch;
+  int *flow;
+  int *capacity;
+  int *edge_scratch;
+} NetworkScratchSpace;
+
+NetworkScratchSpace *network_scratch_space_new(int node_ct);
+void network_scratch_space_free(NetworkScratchSpace *network);
+
 #endif
