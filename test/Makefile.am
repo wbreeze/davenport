@@ -12,7 +12,13 @@ AM_LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined
 test_davenport_la_SOURCES = \
   test_helper.c \
   test_davenport.c \
-  test_preflow_push.c
+  test_preflow_discharge.c \
+  test_preflow_list_mgr.c \
+  test_preflow_max_flow.c \
+  test_preflow_multilayer_flow.c \
+  test_preflow_push.c \
+  test_preflow_relabel.c \
+  test_preflow_saturate.c
 
 test_davenport_la_LIBADD = $(top_builddir)/src/libdavenport.la
 
