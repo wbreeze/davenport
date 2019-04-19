@@ -192,6 +192,14 @@ void reset(PreflowPush *p)
   p->used = 1;
 }
 
+/* Remove back-flows from flow network */
+void remove_back_flows(int *flow, int node_ct)
+{
+  for (int i = 0; i < ECT(node_ct); ++i)
+    if (flow[i] < 0)
+      flow[i] = 0;
+}
+
 /*
  Compute maximum flow over a subset of the network, given by list,
    with existing flow to simulate reduced capacities. Provide labels
@@ -228,5 +236,6 @@ int max_flow_reduced_caps(PreflowPush *pp, int *flow, int *labels,
     }
   }
 
+  remove_back_flows(flow, pp->node_ct);
   return pp->excess[sink];
 }

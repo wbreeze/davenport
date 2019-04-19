@@ -17,6 +17,7 @@ test_davenport_la_SOURCES = \
   test_preflow_max_flow.c \
   test_preflow_multilayer_flow.c \
   test_preflow_push.c \
+  test_preflow_reduced_flow.c \
   test_preflow_relabel.c \
   test_preflow_saturate.c
 
