@@ -205,15 +205,9 @@ void remove_back_flows(int *flow, int node_ct)
    with existing flow to simulate reduced capacities. Provide labels
    initialized with distance to the sink.
  The source and sink values are node indexes.
-
- TODO: future
- The list is of node indexes that comprise a subset of the network.
-   No flow will be pushed through nodes not in the list.
-   The list must *not* include the source and sink nodes.
- The list_ct value is the number of nodes in the list.
 */
 int max_flow_reduced_caps(PreflowPush *pp, int *flow, int *labels,
-  int source, int sink) //, int *list, int list_ct)
+  int source, int sink)
 {
   assert(source < pp->node_ct);
   assert(sink < pp->node_ct);
