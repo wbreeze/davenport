@@ -67,3 +67,30 @@ because we can label them for distance without need for shortest
 path calculations.
 
 [bounds]: https://aaai.org/Library/AAAI/2006/aaai06-099.php
+
+## Indexing
+
+In order to accomplish the above, we need to determine indexes within
+the flow network given indexes in the majority network.
+
+There are macros for the indexing in `src/lower_bound.h` and
+tests for them in `test/test_lower_bound.c`.
+For sanity, the following diagram helped.
+
+![flow network indexing](images/flow_network_indexing.png)
+
+The diagram is the matrix of edges in the flow network given a
+component from the majority network comprising three nodes.
+Along the top and left borders are the node names.
+- `s` is the start node
+- `0'` is the top node of the first column
+- `2'` is the bottom node of the first column
+- `0"` is the top node of the second column
+- `t` is the sink node
+
+With the node names are their indexes in the flow network.
+Within the matrix are the indexes of edges.
+Boxes surround the values we care about.
+Dotted boxes surround the back-flow edges that the max-flow algorithm
+will access.
+The rest of the edges, with lines drawn though them, are waste of space.
