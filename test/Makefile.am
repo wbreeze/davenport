@@ -12,6 +12,7 @@ AM_LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined
 test_davenport_la_SOURCES = \
   test_helper.c \
   test_davenport.c \
+  test_lower_bound.c \
   test_preflow_discharge.c \
   test_preflow_list_mgr.c \
   test_preflow_max_flow.c \
