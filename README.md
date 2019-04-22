@@ -1,21 +1,22 @@
 This is an implementation of Davenport's algorithm for computing
-a preference order using the [Kemeny rule][kemeny]
+a preference order using the Kemeny rule [(1)][kemeny]
 for preference aggregation.
 The algorithm aggregates partial rankings from multiple sources into an
-aggregate partial ranking that is [proven in 1978][young] to be:
+aggregate partial ranking that is proven in 1978 [(2)][young] to be:
 - Condorcet: If a majority ranks A before B, A is before B in the aggregate.
 - Consistent: If the aggregate places A before B in subsets of the
 preferences, it places A before B in the full set of the preferences.
 - Neutral: It gives equal weight to all preferences.
 
 Find Davenport's algorithm described in
-[A Computational Study of the Kemeny Rule for Preference Aggregation][davenport].
+_A Computational Study of the Kemeny Rule for Preference
+Aggregation_ [(3)][davenport].
 We use the improved lower bounds developed by Conitzer and Davenport in
-[Improved Bounds for Computing Kemeny Rankings][bounds].
+_Improved Bounds for Computing Kemeny Rankings_ [(4)][bounds].
 
-A description of the method may be found on Wikipedia
-as [Kemeny-Young method][kym]. Numerical Recipes contains a
-[C++ implementation][kycpp].
+A general description of the method (not the algorithm)
+may be found on Wikipedia as "[Kemeny-Young method][kym]".
+Numerical Recipes contains a [C++ implementation][kycpp].
 
 This implementation has no dependencies on any big libraries.
 As such, it contains a taylored
