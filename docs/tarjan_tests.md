@@ -6,7 +6,7 @@ They use the networks diagrammed here.
 ![Network tests for Tarjan](images/tarjan_tests.png)
 
 Network _2 was interesting, because, unlike the test network in the
-[Wikipedia article][wiki_tarjan], it causes the algorithm to encounter
+[Wikipedia article][wikitarjan], it causes the algorithm to encounter
 an already visited node in the depth-first search that has a value different
 for `lowlink` than for `index`, and that is already on the stack.
 That occurs when node 4 is visited from node 2. At that point, node 4
