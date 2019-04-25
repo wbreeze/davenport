@@ -20,4 +20,8 @@ void edge_array_printl(const int *edges, int node_ct, char *label);
 void node_array_print(const int *nodes, int node_ct);
 void node_array_printl(const int *nodes, int node_ct, char *label);
 
+void solution_array_print(const unsigned char *solution, int node_ct);
+void solution_array_printl(const unsigned char *solution,
+  int node_ct, char *label);
+
 #endif
