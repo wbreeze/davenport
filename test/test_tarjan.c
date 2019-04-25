@@ -48,13 +48,7 @@ void test_tarjan_network_2(void)
   int *edges = edge_array_calloc(node_ct);
   int *components = node_array_calloc(node_ct);
 
-  edges[RCI(0,1,node_ct)] = 1;
-  edges[RCI(0,2,node_ct)] = 1;
-  edges[RCI(1,3,node_ct)] = 1;
-  edges[RCI(1,4,node_ct)] = 1;
-  edges[RCI(2,4,node_ct)] = 1;
-  edges[RCI(3,0,node_ct)] = 1;
-  edges[RCI(4,0,node_ct)] = 1;
+  set_majority_net_pentagon_2(edges, node_ct);
 
   identify_components(edges, node_ct, components);
 
@@ -70,12 +64,7 @@ void test_tarjan_network_3(void)
   int *edges = edge_array_calloc(node_ct);
   int *components = node_array_calloc(node_ct);
 
-  edges[RCI(0,2,node_ct)] = 1;
-  edges[RCI(1,3,node_ct)] = 1;
-  edges[RCI(2,3,node_ct)] = 1;
-  edges[RCI(3,0,node_ct)] = 1;
-  edges[RCI(3,4,node_ct)] = 1;
-  edges[RCI(4,1,node_ct)] = 1;
+  set_majority_net_pentagon_3(edges, node_ct);
 
   identify_components(edges, node_ct, components);
 
@@ -91,11 +80,7 @@ void test_tarjan_network_4(void)
   int *edges = edge_array_calloc(node_ct);
   int *components = node_array_calloc(node_ct);
 
-  edges[RCI(0,1,node_ct)] = 1;
-  edges[RCI(1,2,node_ct)] = 1;
-  edges[RCI(1,3,node_ct)] = 1;
-  edges[RCI(2,4,node_ct)] = 1;
-  edges[RCI(4,1,node_ct)] = 1;
+  set_majority_net_pentagon_4(edges, node_ct);
 
   identify_components(edges, node_ct, components);
 
@@ -113,10 +98,7 @@ void test_tarjan_network_5(void)
   int *edges = edge_array_calloc(node_ct);
   int *components = node_array_calloc(node_ct);
 
-  edges[RCI(0,2,node_ct)] = 1;
-  edges[RCI(3,4,node_ct)] = 1;
-  edges[RCI(4,0,node_ct)] = 1;
-  edges[RCI(4,1,node_ct)] = 1;
+  set_majority_net_pentagon_5(edges, node_ct);
 
   identify_components(edges, node_ct, components);
 

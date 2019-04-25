@@ -29,4 +29,13 @@ typedef struct {
 NetworkScratchSpace *network_scratch_space_new(int node_ct);
 void network_scratch_space_free(NetworkScratchSpace *network);
 
+void set_majority_net_pentagon_2(int *majority, int node_ct);
+void set_majority_net_pentagon_3(int *majority, int node_ct);
+void set_majority_net_pentagon_4(int *majority, int node_ct);
+void set_majority_net_pentagon_5(int *majority, int node_ct);
+void set_majority_net_pentagon_6(int *majority, int node_ct);
+void set_majority_net_one_cycle_embedded(int *majority, int node_ct);
+void set_majority_net_multi_cycle_embedded(int *majority, int node_ct);
+void set_majority_net_two_embedded_cycles(int *majority, int node_ct);
+
 #endif
