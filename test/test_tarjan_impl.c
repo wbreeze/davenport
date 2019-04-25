@@ -1,18 +1,16 @@
 #include <cutter.h>
+#include <string.h>
 #include "test_helper.h"
 #include "test_tarjan.h"
 #include "../src/network.h"
+#include "../src/tarjan.h"
 
-void test_tarjan_new(void)
+void test_tarjan_create(void)
 {
   int node_ct = 6;
-  int *edges = edge_array_calloc(node_ct);
-  int *components = node_array_calloc(node_ct);
-  Tarjan *tarjan = tarjan_new(edges, node_ct, components);
+  Tarjan *tarjan = tarjan_create(node_ct);
 
   cut_assert_equal_int(node_ct, tarjan->node_ct);
-  cut_assert_equal_pointer(edges, tarjan->edges);
-  cut_assert_equal_pointer(components, tarjan->lowlink);
   memset(tarjan->index, 1, node_ct);
   cut_assert_equal_int(1, tarjan->next_index);
   cut_assert_equal_int(0, tarjan->depth);
@@ -25,9 +23,7 @@ void test_tarjan_new(void)
 void test_tarjan_push(void)
 {
   int node_ct = 6;
-  int *edges = edge_array_calloc(node_ct);
-  int *components = node_array_calloc(node_ct);
-  Tarjan *tarjan = tarjan_new(edges, node_ct, components);
+  Tarjan *tarjan = tarjan_create(node_ct);
 
   tarjan_push(tarjan, node_ct + 1);
   cut_assert_equal_int(0, tarjan->depth);
@@ -48,9 +44,7 @@ void test_tarjan_push(void)
 void test_tarjan_pop(void)
 {
   int node_ct = 6;
-  int *edges = edge_array_calloc(node_ct);
-  int *components = node_array_calloc(node_ct);
-  Tarjan *tarjan = tarjan_new(edges, node_ct, components);
+  Tarjan *tarjan = tarjan_create(node_ct);
 
   int v = tarjan_pop(tarjan);
   cut_assert_equal_int(0, v);
@@ -73,9 +67,7 @@ void test_tarjan_pop(void)
 void test_tarjan_next_index(void)
 {
   int node_ct = 6;
-  int *edges = edge_array_calloc(node_ct);
-  int *components = node_array_calloc(node_ct);
-  Tarjan *tarjan = tarjan_new(edges, node_ct, components);
+  Tarjan *tarjan = tarjan_create(node_ct);
 
   cut_assert_equal_int(1, tarjan->next_index);
   cut_assert_equal_int(1, tarjan_next_index(tarjan));
