@@ -3,10 +3,14 @@
 
 // defined here for testing
 
+#include "tarjan.h"
+
 typedef struct Davenport {
   int node_ct;
   const int *majority_graph;
   unsigned char *solution;
+  int *components;
+  Tarjan *tarjan;
 } Davenport;
 
 // public interface
