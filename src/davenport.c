@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "davenport.h"
+#include "edge_selection.h"
 #include "network.h"
 #include "tarjan.h"
 
@@ -28,7 +29,7 @@ Davenport *davenport_destroy(Davenport * d)
 }
 
 /*
- Adds an edge (u,v) to the solution graph and maintain transitive closure.
+ Add an edge (u,v) to the solution graph and maintain transitive closure.
  This works provided the solution graph is already transitive.
  By always calling this method to add edges, we ensure that is the case.
  We don't do any work if the edge is already in the graph.
@@ -61,11 +62,16 @@ void dv_initialize_solution(Davenport *d)
     d->components);
   for (int u = 0; u < d->node_ct; ++u) {
     for (int v = 0; v < d->node_ct; ++v) {
-      if (d->components[u] != d->components[v] &&
-        0 < d->majority_graph[RCI(u,v,d->node_ct)])
+      if (0 < d->majority_graph[RCI(u,v,d->node_ct)])
       {
-        dv_add_solution_edge(d, u, v);
+        if (d->components[u] != d->components[v])
+        {
+          dv_add_solution_edge(d, u, v);
+        } else {
+          d->edge_list[d->edge_ct++] = RCI(u,v,d->node_ct);
+        }
       }
     }
   }
+  sort_edge_selection(d->majority_graph, d->edge_list, d->edge_ct);
 }
