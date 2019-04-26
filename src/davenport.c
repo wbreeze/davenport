@@ -10,6 +10,8 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   d->majority_graph = majority_graph;
   d->solution = solution_array_calloc(node_ct);
   d->components = node_array_calloc(node_ct);
+  d->edge_ct = 0;
+  d->edge_list = calloc(DV_EDGE_CT(node_ct), sizeof(int));
   d->tarjan = tarjan_create(node_ct);
 
   return d;
@@ -18,6 +20,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
 Davenport *davenport_destroy(Davenport * d)
 {
   d->tarjan = tarjan_destroy(d->tarjan);
+  free(d->edge_list);
   free(d->components);
   free(d->solution);
   free(d);

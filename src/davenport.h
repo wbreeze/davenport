@@ -5,11 +5,15 @@
 
 #include "tarjan.h"
 
+#define DV_EDGE_CT(node_ct) (((node_ct) * (node_ct)) / 2)
+
 typedef struct Davenport {
   int node_ct;
   const int *majority_graph;
   unsigned char *solution;
   int *components;
+  int edge_ct;
+  int *edge_list;
   Tarjan *tarjan;
 } Davenport;
 
