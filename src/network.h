@@ -6,6 +6,8 @@
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define RCI(row, col, node_ct) ((row) * (node_ct) + (col))
+#define ROW(index, node_ct) ((index) / (node_ct))
+#define COL(index, node_ct) ((index) % (node_ct))
 #define ECT(node_ct) ((node_ct) * (node_ct))
 
 #define edge_array_calloc(node_ct) calloc(ECT(node_ct), sizeof(int))
