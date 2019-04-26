@@ -1,6 +1,30 @@
 #ifndef TARJAN_H
 #define TARJAN_H
 
+// defined here for testing
+
+typedef struct {
+  int node_ct;
+  int next_index;
+  int *index;
+  int depth;
+  int *stack;
+  unsigned char *onstack;
+} Tarjan;
+
+// public interface
+
+/*
+ Create Tarjan reusable data structure for (up to) node_ct components.
+*/
+Tarjan *tarjan_create(int node_ct);
+
+/*
+ Return Tarjan data structure and its resources to the heap.
+ Always returns NULL
+*/
+Tarjan *tarjan_destroy(Tarjan *tarjan);
+
 /*
  Apply Tarjan's algorithm to identify maximum, strongly connected components
  within the directed graph using integer valued edges and node_ct nodes.
@@ -16,19 +40,7 @@
  identifier gives a topological sort of the components. Otherwise, the
  exact values are not defined.
 */
-void identify_components(const int *edges, int node_ct, int *components);
-
-// defined here for testing
-
-typedef struct {
-  int node_ct;
-  const int *edges;
-  int *lowlink;
-  int next_index;
-  int *index;
-  int depth;
-  int *stack;
-  unsigned char *onstack;
-} Tarjan;
+void tarjan_identify_components(Tarjan *t, const int *edges, int node_ct,
+  int *components);
 
 #endif

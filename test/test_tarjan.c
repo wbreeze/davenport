@@ -28,7 +28,9 @@ void test_tarjan_network_1(void)
   edges[RCI(7,6,node_ct)] = 1;
   edges[RCI(7,7,node_ct)] = 1;
 
-  identify_components(edges, node_ct, components);
+  Tarjan *t = tarjan_create(node_ct);
+  tarjan_identify_components(t, edges, node_ct, components);
+  t = tarjan_destroy(t);
 
   cut_assert_equal_int(components[0], components[1]);
   cut_assert_equal_int(components[0], components[2]);
@@ -48,15 +50,11 @@ void test_tarjan_network_2(void)
   int *edges = edge_array_calloc(node_ct);
   int *components = node_array_calloc(node_ct);
 
-  edges[RCI(0,1,node_ct)] = 1;
-  edges[RCI(0,2,node_ct)] = 1;
-  edges[RCI(1,3,node_ct)] = 1;
-  edges[RCI(1,4,node_ct)] = 1;
-  edges[RCI(2,4,node_ct)] = 1;
-  edges[RCI(3,0,node_ct)] = 1;
-  edges[RCI(4,0,node_ct)] = 1;
+  set_majority_net_pentagon_2(edges, node_ct);
 
-  identify_components(edges, node_ct, components);
+  Tarjan *t = tarjan_create(node_ct);
+  tarjan_identify_components(t, edges, node_ct, components);
+  t = tarjan_destroy(t);
 
   cut_assert_not_equal_int(0, components[0]);
   int *expected = node_array_calloc(node_ct);
@@ -70,14 +68,11 @@ void test_tarjan_network_3(void)
   int *edges = edge_array_calloc(node_ct);
   int *components = node_array_calloc(node_ct);
 
-  edges[RCI(0,2,node_ct)] = 1;
-  edges[RCI(1,3,node_ct)] = 1;
-  edges[RCI(2,3,node_ct)] = 1;
-  edges[RCI(3,0,node_ct)] = 1;
-  edges[RCI(3,4,node_ct)] = 1;
-  edges[RCI(4,1,node_ct)] = 1;
+  set_majority_net_pentagon_3(edges, node_ct);
 
-  identify_components(edges, node_ct, components);
+  Tarjan *t = tarjan_create(node_ct);
+  tarjan_identify_components(t, edges, node_ct, components);
+  t = tarjan_destroy(t);
 
   cut_assert_not_equal_int(0, components[0]);
   int *expected = node_array_calloc(node_ct);
@@ -91,13 +86,11 @@ void test_tarjan_network_4(void)
   int *edges = edge_array_calloc(node_ct);
   int *components = node_array_calloc(node_ct);
 
-  edges[RCI(0,1,node_ct)] = 1;
-  edges[RCI(1,2,node_ct)] = 1;
-  edges[RCI(1,3,node_ct)] = 1;
-  edges[RCI(2,4,node_ct)] = 1;
-  edges[RCI(4,1,node_ct)] = 1;
+  set_majority_net_pentagon_4(edges, node_ct);
 
-  identify_components(edges, node_ct, components);
+  Tarjan *t = tarjan_create(node_ct);
+  tarjan_identify_components(t, edges, node_ct, components);
+  t = tarjan_destroy(t);
 
   cut_assert_not_equal_int(0, components[0]);
   cut_assert_not_equal_int(components[0], components[1]);
@@ -113,12 +106,11 @@ void test_tarjan_network_5(void)
   int *edges = edge_array_calloc(node_ct);
   int *components = node_array_calloc(node_ct);
 
-  edges[RCI(0,2,node_ct)] = 1;
-  edges[RCI(3,4,node_ct)] = 1;
-  edges[RCI(4,0,node_ct)] = 1;
-  edges[RCI(4,1,node_ct)] = 1;
+  set_majority_net_pentagon_5(edges, node_ct);
 
-  identify_components(edges, node_ct, components);
+  Tarjan *t = tarjan_create(node_ct);
+  tarjan_identify_components(t, edges, node_ct, components);
+  t = tarjan_destroy(t);
 
   cut_assert_not_equal_int(0, components[0]);
   cut_assert_not_equal_int(components[0], components[1]);
