@@ -2,6 +2,7 @@
 #define TEST_HELPER_H
 
 #include <string.h>
+#include "test_helper_nets.h"
 #include "test_helper_pentagons.h"
 
 #define assert_equal_int_array(expected, have, length) \
@@ -29,9 +30,5 @@ typedef struct {
 
 NetworkScratchSpace *network_scratch_space_new(int node_ct);
 void network_scratch_space_free(NetworkScratchSpace *network);
-
-void set_majority_net_one_cycle_embedded(int *majority, int node_ct);
-void set_majority_net_multi_cycle_embedded(int *majority, int node_ct);
-void set_majority_net_two_embedded_cycles(int *majority, int node_ct);
 
 #endif

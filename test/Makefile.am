@@ -11,6 +11,7 @@ AM_LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined
 
 test_davenport_la_SOURCES = \
   test_helper.c \
+  test_helper_nets.c \
   test_helper_pentagons.c \
   test_davenport.c \
   test_dv_init_elist.c \
