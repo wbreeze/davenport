@@ -15,6 +15,7 @@ typedef struct Davenport {
   int edge_ct;
   int *edge_list;
   Tarjan *tarjan;
+  int solution_ct;
 } Davenport;
 
 // public interface
@@ -41,5 +42,17 @@ Davenport *davenport_create(const int *majority_graph, int node_ct);
  Always returns NULL.
 */
 Davenport *davenport_destroy(Davenport * d);
+
+/*
+ Compute Kemeny-Young partial orders for the current majority graph.
+ Returns the count of solutions, also available as d->solution_ct.
+*/
+int davenport_compute(Davenport *d);
+
+/*
+ Return the computed solution at the given offset.
+ Returns NULL if d->solution_ct <= offset.
+*/
+const int *davenport_solution(Davenport *d, int offset);
 
 #endif
