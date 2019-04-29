@@ -9,7 +9,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   Davenport *d = malloc(sizeof(struct Davenport));
   d->node_ct = node_ct;
   d->majority_graph = majority_graph;
-  d->solution = solution_array_calloc(node_ct);
+  d->solution_graph = solution_array_calloc(node_ct);
   d->components = node_array_calloc(node_ct);
   d->edge_ct = 0;
   d->edge_list = calloc(DV_EDGE_CT(node_ct), sizeof(int));
@@ -24,7 +24,7 @@ Davenport *davenport_destroy(Davenport * d)
   d->tarjan = tarjan_destroy(d->tarjan);
   free(d->edge_list);
   free(d->components);
-  free(d->solution);
+  free(d->solution_graph);
   free(d);
   return NULL;
 }
@@ -38,18 +38,18 @@ Davenport *davenport_destroy(Davenport * d)
 void dv_add_solution_edge(Davenport *d, int u, int v)
 {
   int edge_index = RCI(u,v,d->node_ct);
-  if (d->solution[edge_index] == 0) {
-    d->solution[edge_index] = 1;
+  if (d->solution_graph[edge_index] == 0) {
+    d->solution_graph[edge_index] = 1;
     for (int w = 0; w < d->node_ct; ++w) {
-      if (d->solution[RCI(v,w,d->node_ct)] != 0) {
-        d->solution[RCI(u,w,d->node_ct)] = 1;
+      if (d->solution_graph[RCI(v,w,d->node_ct)] != 0) {
+        d->solution_graph[RCI(u,w,d->node_ct)] = 1;
       }
     }
     for (int t = 0; t < d->node_ct; ++t) {
-      if (d->solution[RCI(t,u,d->node_ct)] != 0) {
+      if (d->solution_graph[RCI(t,u,d->node_ct)] != 0) {
         for (int w = 0; w < d->node_ct; ++w) {
-          if (d->solution[RCI(u,w,d->node_ct)] != 0) {
-            d->solution[RCI(t,w,d->node_ct)] = 1;
+          if (d->solution_graph[RCI(u,w,d->node_ct)] != 0) {
+            d->solution_graph[RCI(t,w,d->node_ct)] = 1;
           }
         }
       }

@@ -10,7 +10,7 @@
 typedef struct Davenport {
   int node_ct;
   const int *majority_graph;
-  unsigned char *solution;
+  unsigned char *solution_graph;
   int *components;
   int edge_ct;
   int *edge_list;
