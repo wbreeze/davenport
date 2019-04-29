@@ -10,12 +10,12 @@
     expected, (length) * sizeof(int), have, (length) * sizeof(int) \
   )
 
-#define copy_int_array(dest, src, length) \
-  memcpy(dest, src, (length) * sizeof(int))
-#define clear_int_array(array, length) \
-  memset(array, 0, (length) * sizeof(int))
-#define set_int_array(array, value, length) \
-  for(int i = 0; i < length; ++i) array[i] = value;
+#define copy_int_array(dest, src, count) \
+  memcpy(dest, src, (count) * sizeof(int))
+#define clear_int_array(array, count) \
+  memset(array, 0, (count) * sizeof(int))
+#define set_int_array(array, value, count) \
+  for(int i = 0; i < count; ++i) array[i] = value;
 
 typedef struct {
   int node_ct;
