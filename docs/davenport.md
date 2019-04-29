@@ -31,12 +31,14 @@ Some definitions follow.
             - Recurse at ** with (S', M', C', E', T, d + d')
 - Otherwise, we have a complete partial order in T
     - The total, d sums majority disagreements. As a check, we can compute the
-       Kemeny distance of T and track that as well.
+       Kemeny distance of T, using the preference graph, and track that
+       distance as well.
     - If d is better than best found (implies same for Kemeny distance)
         - Discard orderings found so far
         - Update best found
-    - Add (partial) ordering T to solution set. (Items without a majority
-       preference among them form partial ordered, "tied" components.)
+    - If d is equal to best found
+        - Add (partial) ordering T to solution set. (Items without a majority
+          preference among them form partial ordered, "tied" components.)
 
 ## Definitions
 
