@@ -3,9 +3,10 @@
 
 // defined here for testing
 
+#include "network.h"
 #include "tarjan.h"
 
-#define DV_EDGE_CT(node_ct) (((node_ct) * (node_ct)) / 2)
+#define DV_EDGE_CT(node_ct) (ECT(node_ct) / 2)
 
 typedef struct Davenport {
   int node_ct;
@@ -16,6 +17,8 @@ typedef struct Davenport {
   int *edge_list;
   Tarjan *tarjan;
   int solution_ct;
+  int *solution;
+  int best_found;
 } Davenport;
 
 // public interface
@@ -41,7 +44,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct);
  data structure used to track it.
  Always returns NULL.
 */
-Davenport *davenport_destroy(Davenport * d);
+Davenport *davenport_destroy(Davenport *d);
 
 /*
  Compute Kemeny-Young partial orders for the current majority graph.

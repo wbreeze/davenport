@@ -16,6 +16,7 @@ test_davenport_la_SOURCES = \
   test_davenport.c \
   test_dv_init_elist.c \
   test_dv_init_solution.c \
+  test_dv_solution_set.c \
   test_edge_selection.c \
   test_lower_bound.c \
   test_network.c \

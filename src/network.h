@@ -9,10 +9,12 @@
 #define ROW(index, node_ct) ((index) / (node_ct))
 #define COL(index, node_ct) ((index) % (node_ct))
 #define ECT(node_ct) ((node_ct) * (node_ct))
+#define NSZ(node_ct) (node_ct * sizeof(int))
+#define ESZ(node_ct) (ECT(node_ct) * sizeof(int))
 
 #define edge_array_calloc(node_ct) calloc(ECT(node_ct), sizeof(int))
 #define node_array_calloc(node_ct) calloc(node_ct, sizeof(int))
-#define node_array_clear(array, node_ct) memset(array, 0, node_ct * sizeof(int))
+#define node_array_clear(array, node_ct) memset(array, 0, NSZ(node_ct))
 #define solution_array_calloc(node_ct) \
   calloc(ECT(node_ct), sizeof(unsigned char))
 

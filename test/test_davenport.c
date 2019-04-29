@@ -1,4 +1,5 @@
 #include <cutter.h>
+#include <limits.h>
 #include <stdlib.h>
 #include "../src/davenport.h"
 #include "../src/network.h"
@@ -18,6 +19,9 @@ void test_davenport_create(void)
   memset(d->solution_graph, 0, node_ct * sizeof(unsigned char));
   memset(d->components, 0, node_ct);
   memset(d->edge_list, 0, DV_EDGE_CT(node_ct));
+  cut_assert_equal_int(0, d->solution_ct);
+  memset(d->solution, 0, NSZ(node_ct));
+  cut_assert_equal_int(INT_MAX, d->best_found);
 
   d = davenport_destroy(d);
   cut_assert_equal_pointer(NULL, d);
