@@ -15,5 +15,5 @@
    depth in the tree both have rank two. A child of v or w will have rank
    four, because there are three nodes before it in the topological sort.
 */
-void rank_sorted_items(const int *solution_graph, const int *topological_sort,
-  int node_ct, int *ranking);
+void rank_sorted_items(const unsigned char *solution_graph,
+  const int *topological_sort, int node_ct, int *ranking);

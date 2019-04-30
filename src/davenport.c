@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "davenport.h"
 #include "sorting.h"
+#include "transitive_net.h"
 #include "network.h"
 #include "tarjan.h"
 
@@ -33,34 +34,6 @@ Davenport *davenport_destroy(Davenport * d)
   return NULL;
 }
 
-/*
- Add an edge (u,v) to the solution graph and maintain transitive closure.
- This works provided the solution graph is already transitive.
- By always calling this method to add edges, we ensure that is the case.
- We don't do any work if the edge is already in the graph.
-*/
-void dv_add_solution_edge(Davenport *d, int u, int v)
-{
-  int edge_index = RCI(u,v,d->node_ct);
-  if (d->solution_graph[edge_index] == 0) {
-    d->solution_graph[edge_index] = 1;
-    for (int w = 0; w < d->node_ct; ++w) {
-      if (d->solution_graph[RCI(v,w,d->node_ct)] != 0) {
-        d->solution_graph[RCI(u,w,d->node_ct)] = 1;
-      }
-    }
-    for (int t = 0; t < d->node_ct; ++t) {
-      if (d->solution_graph[RCI(t,u,d->node_ct)] != 0) {
-        for (int w = 0; w < d->node_ct; ++w) {
-          if (d->solution_graph[RCI(u,w,d->node_ct)] != 0) {
-            d->solution_graph[RCI(t,w,d->node_ct)] = 1;
-          }
-        }
-      }
-    }
-  }
-}
-
 void dv_initialize_solution(Davenport *d)
 {
   tarjan_identify_components(d->tarjan, d->majority_graph, d->node_ct,
@@ -71,7 +44,7 @@ void dv_initialize_solution(Davenport *d)
       {
         if (d->components[u] != d->components[v])
         {
-          dv_add_solution_edge(d, u, v);
+          transitive_net_add_edge(d->solution_graph, d->node_ct, u, v);
         } else {
           d->edge_list[d->edge_ct++] = RCI(u,v,d->node_ct);
         }
