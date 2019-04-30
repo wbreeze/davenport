@@ -1,4 +1,4 @@
-#include "edge_selection.h"
+#include "sorting.h"
 
 #define value_at(e,a,i) e[a[i]]
 #define swap(a,i,j) { int t=a[i]; a[i]=a[j]; a[j]=t; }
@@ -33,5 +33,11 @@ void quicksort(const int *e, int *a, int l, int r)
 
 void sort_edge_selection(const int *edges, int *selection, int select_ct)
 {
-  quicksort(edges, selection, 0, select_ct-1);
+  quicksort(edges, selection, 0, select_ct - 1);
+}
+
+void sort_nodes_topo(const int *topo_positions, int *topo_sort, int node_ct)
+{
+  for(int i = 0; i < node_ct; ++i) topo_sort[i] = i;
+  quicksort(topo_positions, topo_sort, 0, node_ct - 1);
 }

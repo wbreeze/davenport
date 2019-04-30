@@ -17,7 +17,6 @@ test_davenport_la_SOURCES = \
   test_dv_init_elist.c \
   test_dv_init_solution.c \
   test_dv_solution_set.c \
-  test_edge_selection.c \
   test_lower_bound.c \
   test_network.c \
   test_preflow_discharge.c \
@@ -28,6 +27,8 @@ test_davenport_la_SOURCES = \
   test_preflow_reduced_flow.c \
   test_preflow_relabel.c \
   test_preflow_saturate.c \
+  test_sort_edges.c \
+  test_sort_nodes.c \
   test_tarjan.c \
   test_tarjan_impl.c
 

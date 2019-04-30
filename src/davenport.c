@@ -1,7 +1,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include "davenport.h"
-#include "edge_selection.h"
+#include "sorting.h"
 #include "network.h"
 #include "tarjan.h"
 

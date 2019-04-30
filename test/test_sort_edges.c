@@ -1,6 +1,6 @@
 #include <cutter.h>
 #include "../src/network.h"
-#include "../src/edge_selection.h"
+#include "../src/sorting.h"
 #include "test_helper.h"
 
 void test_sort_edges_1(void) {
