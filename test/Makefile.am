@@ -27,6 +27,7 @@ test_davenport_la_SOURCES = \
   test_preflow_reduced_flow.c \
   test_preflow_relabel.c \
   test_preflow_saturate.c \
+  test_ranking.c \
   test_sort_edges.c \
   test_sort_nodes.c \
   test_tarjan.c \
