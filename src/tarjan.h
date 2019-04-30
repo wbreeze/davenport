@@ -6,7 +6,9 @@
 typedef struct {
   int node_ct;
   int next_index;
+  int next_id;
   int *index;
+  int *lowlink;
   int depth;
   int *stack;
   unsigned char *onstack;

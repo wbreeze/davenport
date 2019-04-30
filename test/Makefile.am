@@ -32,6 +32,7 @@ test_davenport_la_SOURCES = \
   test_sort_nodes.c \
   test_tarjan.c \
   test_tarjan_impl.c \
+  test_tarjan_topo.c \
   test_transitive_net.c
 
 test_davenport_la_LIBADD = $(top_builddir)/src/libdavenport.la

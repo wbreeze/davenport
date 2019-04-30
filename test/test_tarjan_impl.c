@@ -11,11 +11,13 @@ void test_tarjan_create(void)
   Tarjan *tarjan = tarjan_create(node_ct);
 
   cut_assert_equal_int(node_ct, tarjan->node_ct);
-  memset(tarjan->index, 1, node_ct);
+  clear_int_array(tarjan->index, node_ct);
+  clear_int_array(tarjan->lowlink, node_ct);
   cut_assert_equal_int(1, tarjan->next_index);
+  cut_assert_equal_int(node_ct, tarjan->next_id);
   cut_assert_equal_int(0, tarjan->depth);
-  set_int_array(tarjan->stack, 1, node_ct);
-  memset(tarjan->onstack, 1, node_ct);
+  clear_int_array(tarjan->stack, node_ct);
+  cut_assert_equal_int(0, tarjan->onstack[0]);
 
   tarjan = tarjan_destroy(tarjan);
 }
