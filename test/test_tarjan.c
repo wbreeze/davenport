@@ -42,6 +42,9 @@ void test_tarjan_network_1(void)
   cut_assert_not_equal_int(components[3], components[7]);
   cut_assert_equal_int(components[4], components[6]);
   cut_assert_not_equal_int(components[4], components[7]);
+
+  free(components);
+  free(edges);
 }
 
 void test_tarjan_network_2(void)
@@ -60,6 +63,9 @@ void test_tarjan_network_2(void)
   int *expected = node_array_calloc(node_ct);
   set_int_array(expected, components[0], node_ct);
   assert_equal_int_array(expected, components, node_ct);
+
+  free(components);
+  free(edges);
 }
 
 void test_tarjan_network_3(void)
@@ -78,6 +84,9 @@ void test_tarjan_network_3(void)
   int *expected = node_array_calloc(node_ct);
   set_int_array(expected, components[0], node_ct);
   assert_equal_int_array(expected, components, node_ct);
+
+  free(components);
+  free(edges);
 }
 
 void test_tarjan_network_4(void)
@@ -98,6 +107,9 @@ void test_tarjan_network_4(void)
   cut_assert_equal_int(components[1], components[4]);
   cut_assert_not_equal_int(components[3], components[0]);
   cut_assert_not_equal_int(components[3], components[1]);
+
+  free(components);
+  free(edges);
 }
 
 void test_tarjan_network_5(void)
@@ -123,4 +135,7 @@ void test_tarjan_network_5(void)
   cut_assert_not_equal_int(components[2], components[3]);
   cut_assert_not_equal_int(components[2], components[4]);
   cut_assert_not_equal_int(components[3], components[4]);
+
+  free(components);
+  free(edges);
 }
