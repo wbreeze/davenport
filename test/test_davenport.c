@@ -19,7 +19,7 @@ void test_davenport_create(void)
   memset(d->solution_graph, 0, node_ct * sizeof(unsigned char));
   clear_int_array(d->components, node_ct);
   clear_int_array(d->topo_sort, node_ct);
-  memset(d->edge_list, 0, DV_EDGE_CT(node_ct));
+  memset(d->edge_list, 0, DG_ESZ(node_ct));
   cut_assert_equal_int(0, d->solution_ct);
   clear_int_array(d->solution, node_ct);
   cut_assert_equal_int(INT_MAX, d->best_found);

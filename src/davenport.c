@@ -16,7 +16,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   d->components = node_array_calloc(node_ct);
   d->topo_sort = node_array_calloc(node_ct);
   d->edge_ct = 0;
-  d->edge_list = calloc(DV_EDGE_CT(node_ct), sizeof(int));
+  d->edge_list = calloc(DG_ECT(node_ct), sizeof(int));
   d->tarjan = tarjan_create(node_ct);
   d->solution_ct = 0;
   d->solution = node_array_calloc(node_ct);

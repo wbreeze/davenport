@@ -6,8 +6,6 @@
 #include "network.h"
 #include "tarjan.h"
 
-#define DV_EDGE_CT(node_ct) (ECT(node_ct) / 2)
-
 typedef struct Davenport {
   int node_ct;
   const int *majority_graph;
