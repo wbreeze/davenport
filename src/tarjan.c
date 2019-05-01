@@ -1,5 +1,4 @@
 #include <assert.h>
-#include <stdio.h> //printf
 #include <stdlib.h>
 #include "network.h"
 #include "tarjan.h"
@@ -19,7 +18,7 @@
 void tarjan_init(Tarjan *t)
 {
   t->next_index = 1;
-  t->next_id = t->node_ct;
+  t->next_id = 1;
   t->depth = 0;
   node_array_clear(t->index, t->node_ct);
   node_array_clear(t->lowlink, t->node_ct);
@@ -98,7 +97,7 @@ void tarjan_connect(Tarjan *t,
       components[w] = t->next_id;
       ++ct;
     } while(w != v);
-    t->next_id -= ct;
+    t->next_id += ct;
   }
 }
 
