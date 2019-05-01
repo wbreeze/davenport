@@ -6,7 +6,7 @@ void rank_sorted_items(const unsigned char *solution_graph,
   const int *topological_sort, int node_ct, int *ranking)
 {
   // number according to distance from root
-  memset(ranking, 0, node_ct * sizeof(int));
+  node_array_clear(ranking, node_ct);
   for (int i = 0; i < node_ct; ++i) {
     int u = topological_sort[i];
     for(int j = i + 1; j < node_ct; ++j) {
