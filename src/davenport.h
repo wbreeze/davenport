@@ -4,12 +4,13 @@
 // defined here for testing
 
 #include "network.h"
+#include "solution_graph.h"
 #include "tarjan.h"
 
 typedef struct Davenport {
   int node_ct;
   const int *majority_graph;
-  unsigned char *solution_graph;
+  SolutionGraph *solution_graph;
   int *components;
   int *topo_sort;
   int edge_ct;

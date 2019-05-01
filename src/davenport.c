@@ -12,7 +12,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   Davenport *d = malloc(sizeof(struct Davenport));
   d->node_ct = node_ct;
   d->majority_graph = majority_graph;
-  d->solution_graph = solution_array_calloc(node_ct);
+  d->solution_graph = solution_graph_create(node_ct);
   d->components = node_array_calloc(node_ct);
   d->topo_sort = node_array_calloc(node_ct);
   d->edge_ct = 0;
@@ -32,7 +32,7 @@ Davenport *davenport_destroy(Davenport * d)
   free(d->edge_list);
   free(d->topo_sort);
   free(d->components);
-  free(d->solution_graph);
+  d->solution_graph = solution_graph_destroy(d->solution_graph);
   free(d);
   return NULL;
 }
@@ -47,7 +47,7 @@ void dv_initialize_solution(Davenport *d)
       {
         if (d->components[u] != d->components[v])
         {
-          solution_graph_add_edge(d->solution_graph, d->node_ct, u, v);
+          solution_graph_add_edge(d->solution_graph, u, v);
         } else {
           d->edge_list[d->edge_ct++] = RCI(u,v,d->node_ct);
         }
@@ -93,8 +93,8 @@ void dv_maybe_add_solution(Davenport *d, int disagreement_ct)
   }
   if (disagreement_ct == d->best_found) {
     sort_nodes_topo(d->components, d->topo_sort, d->node_ct);
-    rank_sorted_items(d->solution_graph, d->topo_sort, d->node_ct,
-      d->solution);
+    solution_graph_rank_sort_items(
+      d->solution_graph, d->topo_sort, d->solution);
     d->solution_ct = 1;
   }
 }

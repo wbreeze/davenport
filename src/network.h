@@ -18,8 +18,6 @@
 #define edge_array_calloc(node_ct) calloc(ECT(node_ct), sizeof(int))
 #define node_array_calloc(node_ct) calloc(node_ct, sizeof(int))
 #define node_array_clear(array, node_ct) memset(array, 0, NSZ(node_ct))
-#define solution_array_calloc(node_ct) \
-  calloc(ECT(node_ct), sizeof(unsigned char))
 
 void edge_array_print(const int *edges, int node_ct);
 void edge_array_printl(const int *edges, int node_ct, char *label);
