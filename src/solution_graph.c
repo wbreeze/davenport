@@ -1,7 +1,7 @@
 #include "network.h"
-#include "transitive_net.h"
+#include "solution_graph.h"
 
-void transitive_net_add_edge(unsigned char *solution, int node_ct,
+void solution_graph_add_edge(unsigned char *solution, int node_ct,
   int u, int v)
 {
   int edge_index = RCI(u,v,node_ct);

@@ -1,7 +1,7 @@
 #include <cutter.h>
 #include "../src/network.h"
 #include "../src/ranking.h"
-#include "../src/transitive_net.h"
+#include "../src/solution_graph.h"
 #include "test_helper.h"
 
 void test_ranking_order_sorted_complete(void)
@@ -11,7 +11,7 @@ void test_ranking_order_sorted_complete(void)
   int topological_sort[node_ct] = { 0, 1, 2, 3, 4 };
 
   for (int i = 1; i < node_ct; ++i) {
-    transitive_net_add_edge(solution_graph, node_ct, i-1, i);
+    solution_graph_add_edge(solution_graph, node_ct, i-1, i);
   }
 
   int ranking[node_ct];
@@ -30,7 +30,7 @@ void test_ranking_order_sorted_reverse(void)
   int topological_sort[node_ct] = { 4, 3, 2, 1, 0 };
 
   for (int i = node_ct - 1; 0 < i; --i) {
-    transitive_net_add_edge(solution_graph, node_ct, i, i - 1);
+    solution_graph_add_edge(solution_graph, node_ct, i, i - 1);
   }
 
   int ranking[node_ct];
@@ -48,10 +48,10 @@ void test_ranking_order_partial_two_second(void)
   unsigned char *solution_graph = solution_array_calloc(node_ct);
   int topological_sort[node_ct] = { 0, 1, 4, 3, 2 };
 
-  transitive_net_add_edge(solution_graph, node_ct, 0, 1);
-  transitive_net_add_edge(solution_graph, node_ct, 0, 4);
-  transitive_net_add_edge(solution_graph, node_ct, 1, 3);
-  transitive_net_add_edge(solution_graph, node_ct, 3, 2);
+  solution_graph_add_edge(solution_graph, node_ct, 0, 1);
+  solution_graph_add_edge(solution_graph, node_ct, 0, 4);
+  solution_graph_add_edge(solution_graph, node_ct, 1, 3);
+  solution_graph_add_edge(solution_graph, node_ct, 3, 2);
 
   int ranking[node_ct];
   rank_sorted_items(solution_graph, topological_sort, node_ct, ranking);
@@ -68,10 +68,10 @@ void test_ranking_order_partial_two_first_and_last(void)
   unsigned char *solution_graph = solution_array_calloc(node_ct);
   int topological_sort[node_ct] = { 4, 3, 1, 0, 2 };
 
-  transitive_net_add_edge(solution_graph, node_ct, 1, 0);
-  transitive_net_add_edge(solution_graph, node_ct, 1, 2);
-  transitive_net_add_edge(solution_graph, node_ct, 4, 1);
-  transitive_net_add_edge(solution_graph, node_ct, 3, 1);
+  solution_graph_add_edge(solution_graph, node_ct, 1, 0);
+  solution_graph_add_edge(solution_graph, node_ct, 1, 2);
+  solution_graph_add_edge(solution_graph, node_ct, 4, 1);
+  solution_graph_add_edge(solution_graph, node_ct, 3, 1);
 
   int ranking[node_ct];
   rank_sorted_items(solution_graph, topological_sort, node_ct, ranking);
@@ -88,10 +88,10 @@ void test_ranking_order_partial_two_roots(void)
   unsigned char *solution_graph = solution_array_calloc(node_ct);
   int topological_sort[node_ct] = { 4, 2, 1, 3, 0 };
 
-  transitive_net_add_edge(solution_graph, node_ct, 2, 3);
-  transitive_net_add_edge(solution_graph, node_ct, 2, 1);
-  transitive_net_add_edge(solution_graph, node_ct, 1, 0);
-  transitive_net_add_edge(solution_graph, node_ct, 4, 0);
+  solution_graph_add_edge(solution_graph, node_ct, 2, 3);
+  solution_graph_add_edge(solution_graph, node_ct, 2, 1);
+  solution_graph_add_edge(solution_graph, node_ct, 1, 0);
+  solution_graph_add_edge(solution_graph, node_ct, 4, 0);
 
   int ranking[node_ct];
   rank_sorted_items(solution_graph, topological_sort, node_ct, ranking);

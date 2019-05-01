@@ -3,9 +3,9 @@
 #include "davenport.h"
 #include "network.h"
 #include "ranking.h"
+#include "solution_graph.h"
 #include "sorting.h"
 #include "tarjan.h"
-#include "transitive_net.h"
 
 Davenport *davenport_create(const int *majority_graph, int node_ct)
 {
@@ -47,7 +47,7 @@ void dv_initialize_solution(Davenport *d)
       {
         if (d->components[u] != d->components[v])
         {
-          transitive_net_add_edge(d->solution_graph, d->node_ct, u, v);
+          solution_graph_add_edge(d->solution_graph, d->node_ct, u, v);
         } else {
           d->edge_list[d->edge_ct++] = RCI(u,v,d->node_ct);
         }

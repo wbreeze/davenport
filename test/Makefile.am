@@ -27,12 +27,12 @@ test_davenport_la_SOURCES = \
   test_preflow_relabel.c \
   test_preflow_saturate.c \
   test_ranking.c \
+  test_solution_graph.c \
   test_sort_edges.c \
   test_sort_nodes.c \
   test_tarjan.c \
   test_tarjan_impl.c \
-  test_tarjan_topo.c \
-  test_transitive_net.c
+  test_tarjan_topo.c
 
 test_davenport_la_LIBADD = $(top_builddir)/src/libdavenport.la
 

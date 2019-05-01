@@ -1,5 +1,5 @@
-#ifndef TRANSITIVE_NET_H
-#define TRANSITIVE_NET_H
+#ifndef SOLUTION_GRAPH_H
+#define SOLUTION_GRAPH_H
 
 /*
  Add an edge (u,v) to the solution graph and maintain transitive closure.
@@ -7,7 +7,7 @@
  By always calling this method to add edges, we ensure that is the case.
  We don't do any work if the edge is already in the graph.
 */
-void transitive_net_add_edge(unsigned char *solution, int node_ct,
+void solution_graph_add_edge(unsigned char *solution, int node_ct,
   int u, int v);
 
 #endif

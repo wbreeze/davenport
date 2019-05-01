@@ -5,6 +5,6 @@ libdavenport_la_SOURCES = \
   lower_bound.c lower_bound.h \
   preflow_push.c preflow_push.h \
   ranking.c ranking.h \
+  solution_graph.c solution_graph.h \
   sorting.c sorting.h \
-  transitive_net.c transitive_net.h \
   tarjan.c tarjan.h
