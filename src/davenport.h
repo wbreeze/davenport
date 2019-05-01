@@ -13,6 +13,7 @@ typedef struct Davenport {
   const int *majority_graph;
   unsigned char *solution_graph;
   int *components;
+  int *topo_sort;
   int edge_ct;
   int *edge_list;
   Tarjan *tarjan;
@@ -56,6 +57,6 @@ int davenport_compute(Davenport *d);
  Return the computed solution at the given offset.
  Returns NULL if d->solution_ct <= offset.
 */
-const int *davenport_solution(Davenport *d, int offset);
+int *davenport_solution(Davenport *d, int offset);
 
 #endif

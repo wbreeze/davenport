@@ -17,10 +17,11 @@ void test_davenport_create(void)
   cut_assert_equal_pointer(majority_graph, d->majority_graph);
   cut_assert_equal_int(node_ct, d->node_ct);
   memset(d->solution_graph, 0, node_ct * sizeof(unsigned char));
-  memset(d->components, 0, node_ct);
+  clear_int_array(d->components, node_ct);
+  clear_int_array(d->topo_sort, node_ct);
   memset(d->edge_list, 0, DV_EDGE_CT(node_ct));
   cut_assert_equal_int(0, d->solution_ct);
-  memset(d->solution, 0, NSZ(node_ct));
+  clear_int_array(d->solution, node_ct);
   cut_assert_equal_int(INT_MAX, d->best_found);
 
   d = davenport_destroy(d);
@@ -41,7 +42,7 @@ void test_davenport_compute_small_no_cycles(void)
   cut_assert_equal_int(1, solution_ct);
   cut_assert_equal_int(1, d->solution_ct);
   const int expected[node_ct] = {1, 2, 3, 4};
-  const int *solution = davenport_solution(d, 0);
+  int *solution = davenport_solution(d, 0);
   assert_equal_int_array(expected, solution, node_ct);
   cut_assert_null(davenport_solution(d, 1));
 
@@ -62,7 +63,7 @@ void test_davenport_compute_partial_no_cycles(void)
   cut_assert_equal_int(1, solution_ct);
   cut_assert_equal_int(1, d->solution_ct);
   const int expected[node_ct] = {1, 2, 2, 4};
-  const int *solution = davenport_solution(d, 0);
+  int *solution = davenport_solution(d, 0);
   assert_equal_int_array(expected, solution, node_ct);
   cut_assert_null(davenport_solution(d, 1));
 

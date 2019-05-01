@@ -1,10 +1,11 @@
 #include <limits.h>
 #include <stdlib.h>
 #include "davenport.h"
-#include "sorting.h"
-#include "transitive_net.h"
 #include "network.h"
+#include "ranking.h"
+#include "sorting.h"
 #include "tarjan.h"
+#include "transitive_net.h"
 
 Davenport *davenport_create(const int *majority_graph, int node_ct)
 {
@@ -13,6 +14,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   d->majority_graph = majority_graph;
   d->solution_graph = solution_array_calloc(node_ct);
   d->components = node_array_calloc(node_ct);
+  d->topo_sort = node_array_calloc(node_ct);
   d->edge_ct = 0;
   d->edge_list = calloc(DV_EDGE_CT(node_ct), sizeof(int));
   d->tarjan = tarjan_create(node_ct);
@@ -28,6 +30,7 @@ Davenport *davenport_destroy(Davenport * d)
   free(d->solution);
   d->tarjan = tarjan_destroy(d->tarjan);
   free(d->edge_list);
+  free(d->topo_sort);
   free(d->components);
   free(d->solution_graph);
   free(d);
@@ -89,7 +92,9 @@ void dv_maybe_add_solution(Davenport *d, int disagreement_ct)
     // eliminate current solutions
   }
   if (disagreement_ct == d->best_found) {
-    memcpy(d->solution, d->components, NSZ(d->node_ct));
+    sort_nodes_topo(d->components, d->topo_sort, d->node_ct);
+    rank_sorted_items(d->solution_graph, d->topo_sort, d->node_ct,
+      d->solution);
     d->solution_ct = 1;
   }
 }
@@ -118,9 +123,9 @@ int davenport_compute(Davenport *d)
   return d->solution_ct;
 }
 
-const int *davenport_solution(Davenport *d, int offset)
+int *davenport_solution(Davenport *d, int offset)
 {
-  const int *solution = NULL;
+  int *solution = NULL;
   if (offset < d->solution_ct) {
     solution = d->solution;
   }
