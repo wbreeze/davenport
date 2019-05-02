@@ -38,6 +38,7 @@ void set_edge(SolutionGraph *sol, int u, int v)
   if (sol->solution[edge_offset] == 0) {
     sol->solution[edge_offset] = 1;
     sol->edge_stack[sol->set_point++] = edge_offset;
+    sol->disagreement_count += sol->majority_graph[RCI(v,u,sol->node_ct)];
   }
 }
 
@@ -67,7 +68,11 @@ int solution_graph_add_edge(SolutionGraph *sol, int u, int v)
 
 void solution_graph_rollback(SolutionGraph *sol, int set_point) {
   while (set_point < sol->set_point) {
-    sol->solution[sol->edge_stack[--sol->set_point]] = 0;
+    int edge_offset = sol->edge_stack[--sol->set_point];
+    sol->solution[edge_offset] = 0;
+    int u = ROW(edge_offset, sol->node_ct);
+    int v = COL(edge_offset, sol->node_ct);
+    sol->disagreement_count -= sol->majority_graph[RCI(v,u,sol->node_ct)];
   }
 }
 
