@@ -3,11 +3,12 @@
 #include "ranking.h"
 #include "solution_graph.h"
 
-SolutionGraph *solution_graph_create(int node_ct)
+SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct)
 {
   SolutionGraph *sol = malloc(sizeof(SolutionGraph));
 
   sol->node_ct = node_ct;
+  sol->majority_graph = majority_graph;
   sol->disagreement_count = 0;
   sol->solution = solution_array_calloc(node_ct);
   sol->set_point = 0;
@@ -73,6 +74,11 @@ void solution_graph_rollback(SolutionGraph *sol, int set_point) {
 unsigned char solution_graph_has_edge(SolutionGraph *sol, int r, int c)
 {
    return sol->solution[RCI(r,c,sol->node_ct)];
+}
+
+int solution_graph_disagreements(SolutionGraph *sol)
+{
+  return sol->disagreement_count;
 }
 
 void solution_graph_rank_sort_items(SolutionGraph *sol,

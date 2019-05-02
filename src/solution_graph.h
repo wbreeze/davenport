@@ -3,6 +3,7 @@
 
 typedef struct SolutionGraph {
   int node_ct;
+  const int *majority_graph;
   int disagreement_count;
   unsigned char *solution;
   int set_point;
@@ -19,7 +20,14 @@ typedef struct SolutionGraph {
 #define clear_edge_stack(stack, node_ct) \
   memset(stack, 0, DG_ECT(node_ct) * sizeof(int))
 
-SolutionGraph *solution_graph_create(int node_ct);
+/*
+ Create a graph that tracks the current solution.
+ The solution (virtually) modifies the provided majority graph when
+   an edge added directly, or indirectly through transitive closure,
+   is opposite to an edge in the majority graph. When that happens,
+   this adds that edge's weight to the total of disagreements.
+*/
+SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct);
 SolutionGraph *solution_graph_destroy(SolutionGraph *sol);
 
 /*
@@ -29,6 +37,8 @@ SolutionGraph *solution_graph_destroy(SolutionGraph *sol);
  We don't do any work if the edge is already in the graph.
  Returns a set_point that can be used with "solution_graph_rollback()"
    to put the solution graph in the state it had before this call.
+ Updates the total weight of disagreements in the solution relative to
+   the majority graph.
 */
 int solution_graph_add_edge(SolutionGraph *sol, int u, int v);
 
@@ -44,6 +54,13 @@ void solution_graph_rollback(SolutionGraph *sol, int set_point);
  Treat it as boolean. Zero value denotes no edge.
 */
 unsigned char solution_graph_has_edge(SolutionGraph *sol, int u, int v);
+
+/*
+ Returns the current disagreement count, which is the total
+ weight of edges in the majority graph that are opposite an edge in
+ the solution graph.
+*/
+int solution_graph_disagreements(SolutionGraph *sol);
 
 /*
  Delegates with a call to rank_sorted_items().
