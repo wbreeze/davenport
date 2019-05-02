@@ -1,7 +1,5 @@
 language: c
-compiler:
-  - clang
-  - gcc
+compiler: clang
 install:
   - curl --silent --location https://raw.github.com/clear-code/cutter/master/data/travis/setup.sh | sh
   - aclocal ${ACLOCAL_ARGS}
