@@ -4,6 +4,10 @@ compiler:
   - gcc
 install:
   - curl --silent --location https://raw.github.com/clear-code/cutter/master/data/travis/setup.sh | sh
-  - ./autogen.sh
+  - aclocal ${ACLOCAL_ARGS}
+  - libtoolize --copy --force
+  - autoheader
+  - automake --add-missing --foreign --copy
+  - autoconf
   - ./configure
-script: make all && test/run_tests.sh
+script: test/run_tests.sh
