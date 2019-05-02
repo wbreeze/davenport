@@ -27,8 +27,17 @@ SolutionGraph *solution_graph_destroy(SolutionGraph *sol);
  This works provided the solution graph is already transitive.
  By always calling this method to add edges, we ensure that is the case.
  We don't do any work if the edge is already in the graph.
+ Returns a set_point that can be used with "solution_graph_rollback()"
+   to put the solution graph in the state it had before this call.
 */
-void solution_graph_add_edge(SolutionGraph *sol, int u, int v);
+int solution_graph_add_edge(SolutionGraph *sol, int u, int v);
+
+/*
+ Restore the solution graph to the state it was in before a call
+   to "solution_graph_add_edge()".
+ set_point value returned by a call made to add an edge
+*/
+void solution_graph_rollback(SolutionGraph *sol, int set_point);
 
 /*
  Returns the value of the edge at (u, v).
