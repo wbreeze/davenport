@@ -1,3 +1,5 @@
+![Travis build status][travis]
+
 This is an implementation of Davenport's algorithm for computing
 a preference order using the Kemeny rule [(1)][kemeny]
 for preference aggregation.
@@ -55,3 +57,4 @@ AAAI, pages 620--626, 2006.
 [kycpp]: http://numerical.recipes/whp/ky/kemenyyoung.html
 [davenport]: https://aaai.org/Library/AAAI/2004/aaai04-110.php
 [bounds]: https://aaai.org/Library/AAAI/2006/aaai06-099.php
+[travis]: https://travis-ci.org/wbreeze/davenport.svg?branch=master
