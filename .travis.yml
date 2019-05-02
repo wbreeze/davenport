@@ -10,4 +10,4 @@ install:
   - automake --add-missing --foreign --copy
   - autoconf
   - ./configure
-script: test/run_tests.sh
+script: test/run_test.sh
