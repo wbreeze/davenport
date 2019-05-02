@@ -4,5 +4,6 @@ compiler:
   - gcc
 install:
   - curl --silent --location https://raw.github.com/clear-code/cutter/master/data/travis/setup.sh | sh
+  - ./autogen.sh
   - ./configure
 script: make all && test/run_tests.sh
