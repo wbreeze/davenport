@@ -50,10 +50,21 @@ int solution_graph_add_edge(SolutionGraph *sol, int u, int v);
 void solution_graph_rollback(SolutionGraph *sol, int set_point);
 
 /*
- Returns the value of the edge at (u, v).
- Treat it as boolean. Zero value denotes no edge.
+ Returns non-zero if the solution graph has an edge directed from u to v.
+ Treat the return as boolean. Zero value denotes no edge.
 */
 unsigned char solution_graph_has_edge(SolutionGraph *sol, int u, int v);
+
+/*
+ Returns presence of an edge directed from u to v in the modified majority
+ graph.  The rule is that, if the edge exists in the solution graph, it exists
+ in the modified majority graph. Otherwise, if the edge exists in the majority
+ graph and the opposite edge is not in the solution graph, then the edge is in
+ the modified majority graph.  Treat the return as boolean. Zero value denotes
+ no edge.
+*/
+unsigned char solution_graph_has_majority_edge(SolutionGraph *sol,
+  int r, int c);
 
 /*
  Returns the current disagreement count, which is the total
