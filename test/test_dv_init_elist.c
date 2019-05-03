@@ -42,11 +42,14 @@ void test_initialize_elist_multi_cycle_embedded(void)
 
   dv_initialize_solution(d);
 
-  cut_assert_equal_int(7, d->edge_ct);
-  cut_assert_equal_int(4, majority_graph[d->edge_list[0]]);
-  cut_assert_equal_int(3, majority_graph[d->edge_list[1]]);
-  cut_assert_equal_int(3, majority_graph[d->edge_list[2]]);
-  cut_assert_equal_int(2, majority_graph[d->edge_list[3]]);
+  cut_assert_equal_int(10, d->edge_ct);
+  cut_assert_equal_int(6, majority_graph[d->edge_list[0]]);
+  cut_assert_equal_int(6, majority_graph[d->edge_list[1]]);
+  cut_assert_equal_int(6, majority_graph[d->edge_list[2]]);
+  cut_assert_equal_int(4, majority_graph[d->edge_list[3]]);
+  cut_assert_equal_int(3, majority_graph[d->edge_list[4]]);
+  cut_assert_equal_int(3, majority_graph[d->edge_list[5]]);
+  cut_assert_equal_int(2, majority_graph[d->edge_list[6]]);
 }
 
 void test_initialize_elist_two_embedded_cycles(void)

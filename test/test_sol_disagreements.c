@@ -13,9 +13,9 @@ void test_solution_graph_update_disagreements_direct(void)
   solution_graph_add_edge(sol, 1, 0);
   cut_assert_equal_int(6, solution_graph_disagreements(sol));
   int setpoint = solution_graph_add_edge(sol, 2, 1);
-  cut_assert_equal_int(10, solution_graph_disagreements(sol));
+  cut_assert_equal_int(16, solution_graph_disagreements(sol));
   solution_graph_add_edge(sol, 6, 5);
-  cut_assert_equal_int(14, solution_graph_disagreements(sol));
+  cut_assert_equal_int(20, solution_graph_disagreements(sol));
 
   solution_graph_rollback(sol, setpoint);
   cut_assert_equal_int(6, solution_graph_disagreements(sol));
