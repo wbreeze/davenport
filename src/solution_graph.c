@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "network.h"
 #include "ranking.h"
@@ -100,4 +101,10 @@ void solution_graph_rank_sort_items(SolutionGraph *sol,
   const int *topological_sort, int *ranking)
 {
   rank_sorted_items(sol->solution, topological_sort, sol->node_ct, ranking);
+}
+
+void solution_graph_printl(SolutionGraph *sol, char *message)
+{
+  solution_array_printl(sol->solution, sol->node_ct, message);
+  printf("Disagreements: %d\n", sol->disagreement_count);
 }

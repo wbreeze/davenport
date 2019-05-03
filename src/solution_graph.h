@@ -80,4 +80,9 @@ int solution_graph_disagreements(SolutionGraph *sol);
 void solution_graph_rank_sort_items(SolutionGraph *sol,
   const int *topological_sort, int *ranking);
 
+/*
+ Send a picture of the solution graph to stdout.
+*/
+void solution_graph_printl(SolutionGraph *sol, char *message);
+
 #endif
