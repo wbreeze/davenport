@@ -1,5 +1,4 @@
 #include <limits.h>
-#include <stdio.h> // printf
 #include <stdlib.h>
 #include "davenport.h"
 #include "network.h"
@@ -43,6 +42,13 @@ Davenport *davenport_destroy(Davenport * d)
   d->solution_graph = solution_graph_destroy(d->solution_graph);
   free(d);
   return NULL;
+}
+
+void davenport_set_solution_callback(Davenport *d,
+  DavenportSolutionCallback callback, void *context)
+{
+  d->solution_callback = callback;
+  d->solution_context = context;
 }
 
 void dv_initialize_solution(Davenport *d)
@@ -98,19 +104,21 @@ int next_unaccounted_edge_offset(Davenport *d, int e_cur)
 */
 void dv_maybe_add_solution(Davenport *d)
 {
-  printf("MAYBE ADD SOLUTION\n");
   int disagreement_ct = solution_graph_disagreements(d->solution_graph);
   if (disagreement_ct < d->best_found) {
     d->best_found = disagreement_ct;
-    // eliminate current solutions
     d->solution_ct = 0;
   }
   if (disagreement_ct == d->best_found) {
     sort_nodes_topo(d->components, d->topo_sort, d->node_ct);
     solution_graph_rank_sort_items(
       d->solution_graph, d->topo_sort, d->solution);
-    node_array_printl(d->solution, d->node_ct, "CURRENT SOLUTION");
-    d->solution_ct = 1;
+    if (d->solution_callback != NULL) {
+      d->solution_callback(
+        d->solution_context, d->solution, d->node_ct, disagreement_ct
+      );
+    }
+    d->solution_ct += 1;
   }
 }
 
@@ -122,9 +130,7 @@ void dv_maybe_add_solution(Davenport *d)
 void dv_extend_solution(Davenport *d)
 {
   int e_cur = next_unaccounted_edge_offset(d, 0);
-  solution_graph_printl(d->solution_graph, "TRIAL SOLUTION");
   tarjan_identify_components(d->tarjan, d->components);
-  node_array_printl(d->components, d->node_ct, "COMPONENTS");
   if (e_cur < d->edge_ct) {
     // bound
     // TODO: strengthen lower bound
@@ -135,7 +141,6 @@ void dv_extend_solution(Davenport *d)
         int edge_offset = d->edge_list[e_cur];
         int r = ROW(edge_offset, d->node_ct);
         int c = COL(edge_offset, d->node_ct);
-        printf("TRYING %d => %d\n", r, c);
         int set_point = solution_graph_add_edge(d->solution_graph, r, c);
         dv_extend_solution(d); // branch
         solution_graph_rollback(d->solution_graph, set_point);
@@ -149,16 +154,13 @@ void dv_extend_solution(Davenport *d)
 
 int davenport_compute(Davenport *d)
 {
+  edge_array_printl(d->majority_graph, d->node_ct, "MAJORITY");
   dv_initialize_solution(d);
   dv_extend_solution(d);
   return d->solution_ct;
 }
 
-int *davenport_solution(Davenport *d, int offset)
+int *davenport_last_solution(Davenport *d)
 {
-  int *solution = NULL;
-  if (offset < d->solution_ct) {
-    solution = d->solution;
-  }
-  return solution;
+  return d->solution;
 }
