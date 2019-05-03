@@ -61,3 +61,22 @@ void set_majority_net_two_embedded_cycles(int *majority, int node_ct)
   majority[RCI(6,4,node_ct)] = 2;
   majority[RCI(6,7,node_ct)] = 2;
 }
+
+void set_majority_tarjan_example(int *majority, int node_ct)
+{
+  assert(8 <= node_ct);
+  majority[RCI(0,1,node_ct)] = 1;
+  majority[RCI(1,2,node_ct)] = 1;
+  majority[RCI(2,0,node_ct)] = 1;
+  majority[RCI(3,1,node_ct)] = 1;
+  majority[RCI(3,2,node_ct)] = 1;
+  majority[RCI(3,5,node_ct)] = 1;
+  majority[RCI(4,2,node_ct)] = 1;
+  majority[RCI(4,6,node_ct)] = 1;
+  majority[RCI(5,3,node_ct)] = 1;
+  majority[RCI(5,4,node_ct)] = 1;
+  majority[RCI(6,4,node_ct)] = 1;
+  majority[RCI(7,5,node_ct)] = 1;
+  majority[RCI(7,6,node_ct)] = 1;
+  majority[RCI(7,7,node_ct)] = 1;
+}
