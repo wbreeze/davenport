@@ -70,3 +70,71 @@ void test_davenport_compute_partial_no_cycles(void)
   d = davenport_destroy(d);
   free(majority_graph);
 }
+
+void test_davenport_compute_one_cycle_embedded(void)
+{
+  const int node_ct = 5;
+  int *majority_graph = edge_array_calloc(node_ct);
+  set_majority_net_one_cycle_embedded(majority_graph, node_ct);
+  majority_graph[RCI(0,4,node_ct)] = 2;
+  majority_graph[RCI(0,2,node_ct)] = 2;
+  majority_graph[RCI(0,3,node_ct)] = 2;
+  majority_graph[RCI(1,4,node_ct)] = 2;
+  majority_graph[RCI(2,4,node_ct)] = 2;
+
+  Davenport *d = davenport_create(majority_graph, node_ct);
+
+  int solution_ct = davenport_compute(d);
+
+  cut_assert_equal_int(1, solution_ct);
+  cut_assert_equal_int(1, d->solution_ct);
+  const int expected[node_ct] = {1, 2, 3, 4, 5};
+  int *solution = davenport_solution(d, 0);
+  assert_equal_int_array(expected, solution, node_ct);
+  cut_assert_null(davenport_solution(d, 1));
+
+  d = davenport_destroy(d);
+  free(majority_graph);
+}
+
+void test_davenport_compute_multi_cycle_embedded(void)
+{
+  const int node_ct = 8;
+  int *majority_graph = edge_array_calloc(node_ct);
+  set_majority_net_multi_cycle_embedded(majority_graph, node_ct);
+
+  Davenport *d = davenport_create(majority_graph, node_ct);
+
+  int solution_ct = davenport_compute(d);
+
+  cut_assert_equal_int(1, solution_ct);
+  cut_assert_equal_int(1, d->solution_ct);
+  const int expected[node_ct] = {1, 2, 3, 6, 4, 5, 6, 8};
+  int *solution = davenport_solution(d, 0);
+  assert_equal_int_array(expected, solution, node_ct);
+  cut_assert_null(davenport_solution(d, 1));
+
+  d = davenport_destroy(d);
+  free(majority_graph);
+}
+
+void test_davenport_compute_two_embedded_cycles(void)
+{
+  const int node_ct = 8;
+  int *majority_graph = edge_array_calloc(node_ct);
+  set_majority_net_two_embedded_cycles(majority_graph, node_ct);
+
+  Davenport *d = davenport_create(majority_graph, node_ct);
+
+  int solution_ct = davenport_compute(d);
+
+  cut_assert_equal_int(1, solution_ct);
+  cut_assert_equal_int(1, d->solution_ct);
+  const int expected[node_ct] = {1, 2, 3, 4, 5, 6, 7, 8};
+  int *solution = davenport_solution(d, 0);
+  assert_equal_int_array(expected, solution, node_ct);
+  cut_assert_null(davenport_solution(d, 1));
+
+  d = davenport_destroy(d);
+  free(majority_graph);
+}
