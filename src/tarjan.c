@@ -15,6 +15,12 @@
 
 #define ONSTACK_SIZE(t) (t->node_ct * sizeof(unsigned char))
 
+int tarjan_default_edge_lookup(void *context, int r, int c, int node_ct)
+{
+  int *edges = (int *)context;
+  return edges[RCI(r,c,node_ct)];
+}
+
 void tarjan_init(Tarjan *t)
 {
   t->next_index = 1;
@@ -25,7 +31,10 @@ void tarjan_init(Tarjan *t)
   memset(t->onstack, 0, ONSTACK_SIZE(t));
 }
 
-Tarjan *tarjan_create(int node_ct)
+Tarjan *tarjan_create(
+  int (*edge_lookup)(void *context, int r, int c, int node_ct),
+  void *edge_context,
+  int node_ct)
 {
   Tarjan *t = malloc(sizeof(Tarjan));
 
@@ -34,6 +43,9 @@ Tarjan *tarjan_create(int node_ct)
   t->lowlink = node_array_calloc(node_ct);
   t->stack = node_array_calloc(node_ct);
   t->onstack = malloc(ONSTACK_SIZE(t));
+  t->edge_lookup = edge_lookup;
+  t->edge_context = edge_context;
+  t->edge_context = edge_context;
 
   tarjan_init(t);
   return t;
@@ -73,16 +85,15 @@ int tarjan_next_index(Tarjan *t)
   return t->next_index++;
 }
 
-void tarjan_connect(Tarjan *t,
-  const int *edges, int node_ct, int *components, int v)
+void tarjan_connect(Tarjan *t, int *components, int v)
 {
   t->index[v] = t->lowlink[v] = tarjan_next_index(t);
   tarjan_push(t, v);
 
-  for (int w = 0; w < node_ct; ++w) {
-    if (edges[RCI(v,w,node_ct)] != 0) {
+  for (int w = 0; w < t->node_ct; ++w) {
+    if (t->edge_lookup(t->edge_context, v, w, t->node_ct) != 0) {
       if (t->index[w] == 0) {
-        tarjan_connect(t, edges, node_ct, components, w);
+        tarjan_connect(t, components, w);
         t->lowlink[v] = MIN(t->lowlink[v], t->lowlink[w]);
       } else if (t->onstack[w]) {
         t->lowlink[v] = MIN(t->lowlink[v], t->index[w]);
@@ -101,14 +112,12 @@ void tarjan_connect(Tarjan *t,
   }
 }
 
-void tarjan_identify_components(Tarjan *t, const int *edges, int node_ct,
-  int *components)
+void tarjan_identify_components(Tarjan *t, int *components)
 {
-  assert(node_ct <= t->node_ct);
   tarjan_init(t);
-  for (int i = 0; i < node_ct; ++i) {
+  for (int i = 0; i < t->node_ct; ++i) {
     if (t->index[i] == 0) {
-      tarjan_connect(t, edges, node_ct, components, i);
+      tarjan_connect(t, components, i);
     }
   }
 }

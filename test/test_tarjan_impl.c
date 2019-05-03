@@ -8,7 +8,8 @@
 void test_tarjan_create(void)
 {
   int node_ct = 6;
-  Tarjan *tarjan = tarjan_create(node_ct);
+  int *edges = edge_array_calloc(node_ct);
+  Tarjan *tarjan = tarjan_create(tarjan_default_edge_lookup, edges, node_ct);
 
   cut_assert_equal_int(node_ct, tarjan->node_ct);
   clear_int_array(tarjan->index, node_ct);
@@ -18,14 +19,18 @@ void test_tarjan_create(void)
   cut_assert_equal_int(0, tarjan->depth);
   clear_int_array(tarjan->stack, node_ct);
   cut_assert_equal_int(0, tarjan->onstack[0]);
+  cut_assert_equal_pointer(tarjan_default_edge_lookup, tarjan->edge_lookup);
+  cut_assert_equal_pointer(edges, tarjan->edge_context);
 
   tarjan = tarjan_destroy(tarjan);
+  free(edges);
 }
 
 void test_tarjan_push(void)
 {
   int node_ct = 6;
-  Tarjan *tarjan = tarjan_create(node_ct);
+  int *edges = edge_array_calloc(node_ct);
+  Tarjan *tarjan = tarjan_create(tarjan_default_edge_lookup, edges, node_ct);
 
   tarjan_push(tarjan, node_ct + 1);
   cut_assert_equal_int(0, tarjan->depth);
@@ -41,12 +46,14 @@ void test_tarjan_push(void)
   cut_assert_equal_int(node_ct, tarjan->depth);
 
   tarjan = tarjan_destroy(tarjan);
+  free(edges);
 }
 
 void test_tarjan_pop(void)
 {
   int node_ct = 6;
-  Tarjan *tarjan = tarjan_create(node_ct);
+  int *edges = edge_array_calloc(node_ct);
+  Tarjan *tarjan = tarjan_create(tarjan_default_edge_lookup, edges, node_ct);
 
   int v = tarjan_pop(tarjan);
   cut_assert_equal_int(0, v);
@@ -64,12 +71,14 @@ void test_tarjan_pop(void)
   cut_assert_equal_int(0, tarjan->depth);
 
   tarjan = tarjan_destroy(tarjan);
+  free(edges);
 }
 
 void test_tarjan_next_index(void)
 {
   int node_ct = 6;
-  Tarjan *tarjan = tarjan_create(node_ct);
+  int *edges = edge_array_calloc(node_ct);
+  Tarjan *tarjan = tarjan_create(tarjan_default_edge_lookup, edges, node_ct);
 
   cut_assert_equal_int(1, tarjan->next_index);
   cut_assert_equal_int(1, tarjan_next_index(tarjan));
@@ -78,4 +87,5 @@ void test_tarjan_next_index(void)
   cut_assert_equal_int(3, tarjan->next_index);
 
   tarjan = tarjan_destroy(tarjan);
+  free(edges);
 }
