@@ -28,6 +28,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   d->solution_ct = 0;
   d->solution = node_array_calloc(node_ct);
   d->best_found = INT_MAX;
+  d->solution_callback = NULL;
 
   return d;
 }
@@ -154,7 +155,6 @@ void dv_extend_solution(Davenport *d)
 
 int davenport_compute(Davenport *d)
 {
-  edge_array_printl(d->majority_graph, d->node_ct, "MAJORITY");
   dv_initialize_solution(d);
   dv_extend_solution(d);
   return d->solution_ct;
