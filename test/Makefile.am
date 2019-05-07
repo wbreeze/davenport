@@ -18,6 +18,7 @@ test_davenport_la_SOURCES = \
   test_dv_init_solution.c \
   test_lower_bound.c \
   test_network.c \
+  test_preference_graph.c \
   test_preflow_discharge.c \
   test_preflow_list_mgr.c \
   test_preflow_max_flow.c \
