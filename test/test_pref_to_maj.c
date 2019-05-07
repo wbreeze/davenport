@@ -8,27 +8,7 @@ void test_preference_graph_convert_majority(void)
   const int node_ct = 5;
   int *preference_graph = edge_array_calloc(node_ct);
   int *majority_graph = edge_array_calloc(node_ct);
-
-  preference_graph[RCI(0,1,node_ct)] = 5;
-  preference_graph[RCI(0,2,node_ct)] = 3;
-  preference_graph[RCI(0,3,node_ct)] = 5;
-  preference_graph[RCI(0,4,node_ct)] = 5;
-  preference_graph[RCI(1,0,node_ct)] = 2;
-  preference_graph[RCI(1,2,node_ct)] = 4;
-  preference_graph[RCI(1,3,node_ct)] = 3;
-  preference_graph[RCI(1,4,node_ct)] = 5;
-  preference_graph[RCI(2,0,node_ct)] = 4;
-  preference_graph[RCI(2,1,node_ct)] = 3;
-  preference_graph[RCI(2,3,node_ct)] = 5;
-  preference_graph[RCI(2,4,node_ct)] = 3;
-  preference_graph[RCI(3,0,node_ct)] = 2;
-  preference_graph[RCI(3,1,node_ct)] = 4;
-  preference_graph[RCI(3,2,node_ct)] = 2;
-  preference_graph[RCI(3,4,node_ct)] = 2;
-  preference_graph[RCI(4,0,node_ct)] = 2;
-  preference_graph[RCI(4,1,node_ct)] = 2;
-  preference_graph[RCI(4,2,node_ct)] = 4;
-  preference_graph[RCI(4,3,node_ct)] = 5;
+  set_preference_net_1(preference_graph, node_ct);
 
   preference_graph_to_majority_graph(preference_graph, majority_graph, node_ct);
 

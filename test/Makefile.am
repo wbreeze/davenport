@@ -13,7 +13,10 @@ test_davenport_la_SOURCES = \
   test_helper.c \
   test_helper_nets.c \
   test_helper_pentagons.c \
+  test_helper_pref_nets.c \
   test_davenport.c \
+  test_davenport_cycles.c \
+  test_davenport_callback_context.c \
   test_dv_init_elist.c \
   test_dv_init_solution.c \
   test_lower_bound.c \
