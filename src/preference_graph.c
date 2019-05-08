@@ -19,7 +19,8 @@ void preference_graph_add_preference(int *preference_graph,
 void preference_graph_to_majority_graph(const int *preference_graph,
   int *majority_graph, int node_ct)
 {
-  for (int u = 0; u < node_ct - 1; ++u) {
+  for (int u = 0; u < node_ct; ++u) {
+    majority_graph[RCI(u,u,node_ct)] = 0;
     for (int v = u + 1; v < node_ct; ++v) {
       int diff = preference_graph[RCI(u,v,node_ct)] -
         preference_graph[RCI(v,u,node_ct)];
@@ -28,6 +29,10 @@ void preference_graph_to_majority_graph(const int *preference_graph,
       }
       if (diff < 0) {
         majority_graph[RCI(v,u,node_ct)] = -diff;
+      }
+      if (diff == 0) {
+        majority_graph[RCI(v,u,node_ct)] =
+          majority_graph[RCI(u,v,node_ct)] = 0;
       }
     }
   }

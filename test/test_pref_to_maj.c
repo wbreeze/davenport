@@ -36,3 +36,15 @@ void test_preference_graph_convert_majority(void)
   free(majority_graph);
   free(preference_graph);
 }
+
+void test_preference_graph_convert_majority_overwrite(void)
+{
+  int node_ct = 3;
+  int *preference_graph = edge_array_calloc(node_ct);
+  int *majority_graph = edge_array_calloc(node_ct);
+  set_int_array(majority_graph, 1, node_ct);
+
+  preference_graph_to_majority_graph(preference_graph, majority_graph, node_ct);
+
+  assert_equal_int_array(preference_graph, majority_graph, node_ct);
+}
