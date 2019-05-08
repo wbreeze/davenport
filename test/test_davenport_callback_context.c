@@ -1,5 +1,6 @@
 #include <cutter.h>
 #include <string.h>
+#include <stdio.h> // printf
 #include "../src/davenport.h"
 #include "../src/network.h"
 #include "test_davenport_callback_context.h"
