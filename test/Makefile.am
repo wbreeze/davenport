@@ -40,6 +40,7 @@ test_davenport_la_SOURCES = \
   test_sort_edges.c \
   test_sort_nodes.c \
   test_tarjan.c \
+  test_tarjan_ccb.c \
   test_tarjan_impl.c \
   test_tarjan_mmaj.c \
   test_tarjan_topo.c

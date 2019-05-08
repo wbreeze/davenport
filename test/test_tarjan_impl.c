@@ -21,6 +21,8 @@ void test_tarjan_create(void)
   cut_assert_equal_int(0, tarjan->onstack[0]);
   cut_assert_equal_pointer(tarjan_default_edge_lookup, tarjan->edge_lookup);
   cut_assert_equal_pointer(edges, tarjan->edge_context);
+  cut_assert_null(tarjan->component_callback);
+  cut_assert_null(tarjan->component_callback_context);
 
   tarjan = tarjan_destroy(tarjan);
   free(edges);

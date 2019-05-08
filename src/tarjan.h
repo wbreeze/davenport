@@ -1,7 +1,10 @@
 #ifndef TARJAN_H
 #define TARJAN_H
 
-// defined here for testing
+typedef int (*TarjanEdgeLookup)(
+  void *context, int r, int c, int node_ct);
+typedef void (*TarjanComponentCallback)(
+  void *context, int *component, int member_ct);
 
 typedef struct {
   int node_ct;
@@ -12,11 +15,11 @@ typedef struct {
   int depth;
   int *stack;
   unsigned char *onstack;
-  int (*edge_lookup)(void *context, int r, int c, int node_ct);
+  TarjanEdgeLookup edge_lookup;
   void *edge_context;
+  TarjanComponentCallback component_callback;
+  void *component_callback_context;
 } Tarjan;
-
-// public interface
 
 /*
  Create Tarjan reusable data structure for node_ct components.
@@ -24,7 +27,7 @@ typedef struct {
  there is a directed edge in the edge_context from r to c.
 */
 Tarjan *tarjan_create(
-  int (*edge_lookup)(void *context, int r, int c, int node_ct),
+  TarjanEdgeLookup edge_lookup,
   void *edge_context,
   int node_ct);
 
@@ -33,6 +36,15 @@ Tarjan *tarjan_create(
  Always returns NULL
 */
 Tarjan *tarjan_destroy(Tarjan *tarjan);
+
+/*
+ Record a callback that the algorithm calls on each component when identified.
+ The callback receives the context, an array of integer offsets that identify
+ graph vertices that belong to the component, and the count of vertices in the
+ component.
+*/
+void tarjan_set_component_callback(Tarjan *tarjan,
+  TarjanComponentCallback component_callback, void *context);
 
 /*
  An edge lookup that accepts an integer array as context and returns

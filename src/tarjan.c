@@ -45,7 +45,8 @@ Tarjan *tarjan_create(
   t->onstack = malloc(ONSTACK_SIZE(t));
   t->edge_lookup = edge_lookup;
   t->edge_context = edge_context;
-  t->edge_context = edge_context;
+  t->component_callback = NULL;
+  t->component_callback_context = NULL;
 
   tarjan_init(t);
   return t;
@@ -60,6 +61,13 @@ Tarjan *tarjan_destroy(Tarjan *t)
   free(t);
 
   return NULL;
+}
+
+void tarjan_set_component_callback(Tarjan *t,
+  TarjanComponentCallback component_callback, void *context)
+{
+  t->component_callback = component_callback;
+  t->component_callback_context = context;
 }
 
 void tarjan_push(Tarjan *t, int v)
@@ -108,6 +116,10 @@ void tarjan_connect(Tarjan *t, int *components, int v)
       components[w] = t->next_id;
       ++ct;
     } while(w != v);
+    if (t->component_callback != NULL) {
+      t->component_callback(
+        t->component_callback_context, t->stack + t->depth, ct);
+    }
     t->next_id += ct;
   }
 }
