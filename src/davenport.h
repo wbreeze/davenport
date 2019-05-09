@@ -36,6 +36,7 @@ typedef struct Davenport {
   int best_found;
   DavenportSolutionCallback solution_callback;
   void *solution_context;
+  int cycle_lower_bounds;
 } Davenport;
 
 /*
