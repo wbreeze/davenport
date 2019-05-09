@@ -100,8 +100,9 @@ void saturate_from_source(const int *capacity, int *flow, int *excess,
   int node_ct, int source)
 {
   excess[source] = INT_MAX;
-  for(int v = 0; v < node_ct; ++v)
+  for(int v = 0; v < node_ct; ++v) {
     push(capacity, flow, excess, node_ct, source, v);
+  }
   excess[source] = 0;
 }
 
@@ -211,6 +212,7 @@ int max_flow_reduced_caps(PreflowPush *pp, int *flow, int *labels,
 {
   assert(source < pp->node_ct);
   assert(sink < pp->node_ct);
+  assert(source != sink);
   reset(pp);
   saturate_from_source(pp->capacity, flow, pp->excess, pp->node_ct, source);
   initialize_list(pp->sequence, pp->node_ct, source, sink);
