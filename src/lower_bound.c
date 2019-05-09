@@ -46,15 +46,15 @@ LBNetwork *lb_network_destroy(LBNetwork *lb_net)
 /*
  Initialize the capacities of the internal edges of the network
 */
-void lb_network_init_capacities(LBNetwork *lb_net,
-  const int *majority, int node_ct, const int *component)
+void lb_network_init_capacities(LBNetwork *lb_net, LBNetworkEdgeLookup lookup,
+  void *context, int node_ct, const int *component)
 {
   for (int u = 0; u < lb_net->node_ct; ++u) {
     int u_ref = component[u];
     for (int v = 0; v < lb_net->node_ct; ++v) {
       int v_ref = component[v];
        lb_net->capacities[col_edge_index(lb_net, u, v)] =
-         majority[RCI(u_ref, v_ref, node_ct)];
+         lookup(context, u_ref, v_ref, node_ct);
     }
   }
 }
@@ -66,7 +66,9 @@ void lb_network_init_capacities(LBNetwork *lb_net,
 void lb_network_init_for_pass(LBNetwork *lb_net, int u)
 {
   lb_net->capacities[s_edge_index(lb_net, u)] = 0;
+  lb_net->flows[s_edge_index(lb_net, u)] = 0;
   lb_net->capacities[t_edge_index(lb_net, u)] = 0;
+  lb_net->flows[t_edge_index(lb_net, u)] = 0;
   for(int v = 0; v < lb_net->node_ct; ++v) {
     if (v != u) {
       lb_net->capacities[s_edge_index(lb_net, v)] =
@@ -98,11 +100,11 @@ void lb_network_update_from_pass(LBNetwork *lb_net, int u)
   }
 }
 
-int compute_lower_bound(const int *majority, int node_ct,
-  const int *component, int component_sz)
+int compute_bound_edge_lookup(LBNetworkEdgeLookup lookup, void *context,
+  int node_ct, const int *component, int component_sz)
 {
   LBNetwork *lb_net = lb_network_new(component_sz);
-  lb_network_init_capacities(lb_net, majority, node_ct, component);
+  lb_network_init_capacities(lb_net, lookup, context, node_ct, component);
 
   int lower_bound = 0;
 
@@ -117,4 +119,17 @@ int compute_lower_bound(const int *majority, int node_ct,
 
   lb_net = lb_network_destroy(lb_net);
   return lower_bound;
+}
+
+int lower_bound_edge_lookup(void *context, int u, int v, int node_ct)
+{
+  int *majority = (int *)context;
+  return majority[RCI(u,v,node_ct)];
+}
+
+int compute_lower_bound(int *majority, int node_ct,
+  const int *component, int component_sz)
+{
+  return compute_bound_edge_lookup(&lower_bound_edge_lookup, majority, node_ct,
+    component, component_sz);
 }

@@ -71,7 +71,8 @@ void test_lb_network_init_capacities(void)
   };
   LBNetwork *lb_net = lb_network_new(component_ct);
 
-  lb_network_init_capacities(lb_net, majority, node_ct, component);
+  lb_network_init_capacities(lb_net, &lower_bound_edge_lookup,
+    majority, node_ct, component);
 
   int *flow_caps = lb_net->capacities;
   cut_assert_equal_int(majority[RCI(offset, offset + 1, node_ct)],
@@ -100,7 +101,8 @@ void test_lb_network_init_for_pass(void)
   LBNetwork *lb_net = lb_network_new(component_ct);
   int u = 0;
 
-  lb_network_init_capacities(lb_net, majority, node_ct, component);
+  lb_network_init_capacities(lb_net, &lower_bound_edge_lookup,
+    majority, node_ct, component);
   // initialize a fake flow, including something on u-u that shouldn't be there
   majority[RCI(u, u, node_ct)] = node_ct;
   for (int v = 0; v < component_ct; ++v) {
@@ -109,7 +111,9 @@ void test_lb_network_init_for_pass(void)
   }
   // spoil s-u and u-t from "prior" run
   lb_net->capacities[s_edge_index(lb_net, u)] = node_ct;
+  lb_net->flows[s_edge_index(lb_net, u)] = node_ct;
   lb_net->capacities[t_edge_index(lb_net, u)] = node_ct;
+  lb_net->flows[t_edge_index(lb_net, u)] = node_ct;
 
   lb_network_init_for_pass(lb_net, u);
 

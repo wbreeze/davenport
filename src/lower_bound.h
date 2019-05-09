@@ -4,6 +4,8 @@
 #include "network.h"
 #include "preflow_push.h"
 
+typedef int (*LBNetworkEdgeLookup)(void *context, int u, int v, int node_ct);
+
 // defined here for testing; internal use only
 typedef struct {
   int node_ct;
@@ -27,15 +29,22 @@ typedef struct {
   (RCI(c2_index(lb_net, v), t_index(lb_net), lb_net->net_ct))
 
 /*
- This is the public interface.
-
  Given the pair-wise majority graph as "majority" with node_ct nodes
  and a list of indexes within that graph, "component" with component_sz
  indexes (0 <= index < node_ct),
  compute the lower bound on the number of pair-wise rankings
  that must be broken in order to create a non-cyclic majority graph
 */
-int compute_lower_bound(const int *majority, int node_ct,
+int compute_lower_bound(int *majority, int node_ct,
+  const int *component, int component_sz);
+
+/*
+ Given edge weight lookup function into square graph of node_ct nodes and a
+ list of indexes within that graph, "component" with component_sz indexes
+ (0 <= index < node_ct), compute the lower bound on the number of pair-wise
+ rankings that must be broken in order to create a non-cyclic majority graph.
+*/
+int compute_bound_edge_lookup(LBNetworkEdgeLookup, void *context, int node_ct,
   const int *component, int component_sz);
 
 #endif
