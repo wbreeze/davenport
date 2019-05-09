@@ -82,14 +82,13 @@ unsigned char solution_graph_has_edge(SolutionGraph *sol, int r, int c)
    return sol->solution[RCI(r,c,sol->node_ct)];
 }
 
-unsigned char solution_graph_has_majority_edge(SolutionGraph *sol,
-  int r, int c)
+int solution_graph_modified_majority_edge(SolutionGraph *sol, int r, int c)
 {
-  return(
-    sol->solution[RCI(r,c,sol->node_ct)] != 0 ||
-    (sol->solution[RCI(c,r,sol->node_ct)] == 0 &&
-      sol->majority_graph[RCI(r,c,sol->node_ct)] != 0)
-  );
+  int weight = 0;
+  if (sol->solution[RCI(c,r,sol->node_ct)] == 0) {
+    weight = sol->majority_graph[RCI(r,c,sol->node_ct)];
+  }
+  return weight;
 }
 
 int solution_graph_disagreements(SolutionGraph *sol)
