@@ -79,8 +79,8 @@ The preflow_push algorithm is worst case cubic in n_c `O({n_c}^3)`.
 Both are performed at each iteration.
 
 The algorithm will in best case make one iteration and in worst case make
-`{n^2}!` iterations. It is not very hard to make a worst case example; however,
-the worst case is rare in practice. The improved bounds article ([1][bounds])
+${n^2}!$ iterations. It is not very hard to make a worst case example; however,
+the worst case is rare in practice. The improved bounds article ([4][bounds])
 and the aerobatic flight ranking article ([5][ranking]) both demonstrate
 extensive application experience with tenable runtimes.
 
