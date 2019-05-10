@@ -150,7 +150,7 @@ void dv_extend_solution(Davenport *d)
   if (e_cur < d->edge_ct) {
     int lower_bound = solution_graph_disagreements(d->solution_graph) +
       d->cycle_lower_bounds;
-    if (solution_graph_disagreements(d->solution_graph) <= d->best_found)
+    if (lower_bound <= d->best_found)
     {
       while(e_cur < d->edge_ct) {
         int edge_offset = d->edge_list[e_cur];
