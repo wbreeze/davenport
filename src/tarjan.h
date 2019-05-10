@@ -56,7 +56,7 @@ int tarjan_default_edge_lookup(void *context, int r, int c, int node_ct);
  Apply Tarjan's algorithm to identify maximum, strongly connected components
  within the directed graph.
  
- It usese the edge_lookup function supplied in the constructor, along
+ It uses the edge_lookup function supplied in the constructor, along
  with the context data passed there, to determine the existence of each edge.
 
  An non-zero return from the edge_lookup function indicates an edge
