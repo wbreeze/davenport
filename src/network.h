@@ -16,6 +16,7 @@
 #define DG_ESZ(node_ct) (DG_ECT(node_ct) * sizeof(int))
 
 #define edge_array_calloc(node_ct) calloc(ECT(node_ct), sizeof(int))
+#define edge_array_clear(array, node_ct) memset(array, 0, ESZ(node_ct))
 #define node_array_calloc(node_ct) calloc(node_ct, sizeof(int))
 #define node_array_clear(array, node_ct) memset(array, 0, NSZ(node_ct))
 
