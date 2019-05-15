@@ -99,8 +99,7 @@ int solution_graph_disagreements(SolutionGraph *sol)
 void solution_graph_rank_sort_items(SolutionGraph *sol,
   const int *topological_sort, int *ranking)
 {
-  rank_sorted_from_solution(sol->solution,
-    topological_sort, sol->node_ct, ranking);
+  rank_sorted_items(sol->solution, topological_sort, sol->node_ct, ranking);
 }
 
 void solution_graph_printl(SolutionGraph *sol, char *message)
