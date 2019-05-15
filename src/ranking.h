@@ -1,7 +1,7 @@
 /*
  Produce a rank order for the items given:
  - solution_graph, a transitive, directed graph with edge (u,v) indicating that
-   u comes before (<) v. Although transitive, the groph is not necessarily
+   u comes before (<) v. Although transitive, the graph is not necessarily
    complete.  The graph may have u < v and u < w but no edge between v and w
    that orders one before the other.  The function treats this array as
    containing at least ECT(node_ct) entries, with non-zero values signifying a
@@ -19,5 +19,7 @@
    because there are three nodes before it in the topological sort.  There
    should be at least node_ct integers allocated to ranking.
 */
-void rank_sorted_items(const unsigned char *solution_graph,
+void rank_sorted_from_solution(const unsigned char *solution_graph,
+  const int *topological_sort, int node_ct, int *ranking);
+void rank_sorted_from_preference(const int *preference_graph,
   const int *topological_sort, int node_ct, int *ranking);

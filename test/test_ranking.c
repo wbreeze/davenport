@@ -1,5 +1,6 @@
 #include <cutter.h>
 #include "../src/network.h"
+#include "../src/ranking.h"
 #include "../src/solution_graph.h"
 #include "test_helper.h"
 
@@ -109,4 +110,28 @@ void test_ranking_order_partial_two_roots(void)
 
   solution_graph_destroy(sol);
   free(mg);
+}
+
+void test_ranking_order_partial_preference(void)
+{
+  const int node_ct = 5;
+  int *pg = edge_array_calloc(node_ct);
+  int topological_sort[node_ct] = { 0, 1, 4, 3, 2 };
+
+  pg[RCI(0, 1, node_ct)] = 1;
+  pg[RCI(0, 2, node_ct)] = 1;
+  pg[RCI(0, 3, node_ct)] = 1;
+  pg[RCI(0, 4, node_ct)] = 1;
+  pg[RCI(1, 3, node_ct)] = 1;
+  pg[RCI(1, 2, node_ct)] = 1;
+  pg[RCI(3, 2, node_ct)] = 1;
+  pg[RCI(4, 2, node_ct)] = 1;
+
+  int ranking[node_ct];
+  rank_sorted_from_preference(pg, topological_sort, node_ct, ranking);
+
+  int expected[node_ct] = { 1, 2, 5, 4, 2 };
+  assert_equal_int_array(expected, ranking, node_ct);
+
+  free(pg);
 }
