@@ -1,8 +1,6 @@
 #ifndef DAVENPORT_H
 #define DAVENPORT_H
 
-// defined here for testing
-
 #include "network.h"
 #include "solution_graph.h"
 #include "tarjan.h"
