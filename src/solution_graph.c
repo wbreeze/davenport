@@ -4,6 +4,11 @@
 #include "ranking.h"
 #include "solution_graph.h"
 
+/*
+ Default change callback is a no-op saves testing for NULL before calling.
+*/
+void sg_default_change(void *_c, int _u, int _v, int _dir) {};
+
 SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct)
 {
   SolutionGraph *sol = malloc(sizeof(SolutionGraph));
@@ -14,6 +19,7 @@ SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct)
   sol->solution = solution_array_calloc(node_ct);
   sol->set_point = 0;
   sol->edge_stack = edge_stack_calloc(node_ct);
+  sol->change = &sg_default_change;
 
   return sol;
 }
@@ -26,6 +32,13 @@ SolutionGraph *solution_graph_destroy(SolutionGraph *sol)
   return NULL;
 }
 
+void solution_graph_on_edge_change(SolutionGraph *sol,
+  SolutionGraphEdgeChange *change, void *context)
+{
+  sol->change = change;
+  sol->change_context = context;
+}
+
 /*
  This is for internal use. It assumes checks made by the function,
    "set_graph_add_edge()" and is called from there. In particular,
@@ -33,13 +46,14 @@ SolutionGraph *solution_graph_destroy(SolutionGraph *sol)
  - This does no transitive updates
  This does update the record of added edges to support rollback.
 */
-void set_edge(SolutionGraph *sol, int u, int v)
+void sg_set_edge(SolutionGraph *sol, int u, int v)
 {
   int edge_offset = RCI(u,v,sol->node_ct);
   if (sol->solution[edge_offset] == 0) {
     sol->solution[edge_offset] = 1;
     sol->edge_stack[sol->set_point++] = edge_offset;
     sol->disagreement_count += sol->majority_graph[RCI(v,u,sol->node_ct)];
+    sol->change(sol->change_context, u, v, 1);
   }
 }
 
@@ -48,17 +62,17 @@ int solution_graph_add_edge(SolutionGraph *sol, int u, int v)
   int set_point = sol->set_point;
   if (sol->solution[RCI(u,v,sol->node_ct)] == 0 &&
       sol->solution[RCI(v,u,sol->node_ct)] == 0) {
-    set_edge(sol, u, v);
+    sg_set_edge(sol, u, v);
     for (int w = 0; w < sol->node_ct; ++w) {
       if (sol->solution[RCI(v,w,sol->node_ct)] != 0) {
-        set_edge(sol, u, w);
+        sg_set_edge(sol, u, w);
       }
     }
     for (int t = 0; t < sol->node_ct; ++t) {
       if (sol->solution[RCI(t,u,sol->node_ct)] != 0) {
         for (int w = 0; w < sol->node_ct; ++w) {
           if (sol->solution[RCI(u,w,sol->node_ct)] != 0) {
-            set_edge(sol, t, w);
+            sg_set_edge(sol, t, w);
           }
         }
       }
@@ -74,6 +88,7 @@ void solution_graph_rollback(SolutionGraph *sol, int set_point) {
     int u = ROW(edge_offset, sol->node_ct);
     int v = COL(edge_offset, sol->node_ct);
     sol->disagreement_count -= sol->majority_graph[RCI(v,u,sol->node_ct)];
+    sol->change(sol->change_context, u, v, -1);
   }
 }
 

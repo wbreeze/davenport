@@ -1,6 +1,16 @@
 #ifndef SOLUTION_GRAPH_H
 #define SOLUTION_GRAPH_H
 
+/*
+ Called when an edge is added or removed, either through add_edge, by
+ transitive closure, or by rollbock.
+ The offsets u and v are from and to; direction is 1 if the edge from
+   u to v is added, -1 if the edge from u to v is removed.
+ This little coding trick saves making two separate callbacks.
+*/
+typedef void SolutionGraphEdgeChange(
+  void *context, int u, int v, int direction);
+
 typedef struct SolutionGraph {
   int node_ct;
   const int *majority_graph;
@@ -8,6 +18,8 @@ typedef struct SolutionGraph {
   unsigned char *solution;
   int set_point;
   int *edge_stack;
+  SolutionGraphEdgeChange *change;
+  void *change_context;
 } SolutionGraph;
 
 #define solution_array_calloc(node_ct) \
@@ -29,6 +41,12 @@ typedef struct SolutionGraph {
 */
 SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct);
 SolutionGraph *solution_graph_destroy(SolutionGraph *sol);
+
+/*
+ Register callback for edge addition and removal
+*/
+void solution_graph_on_edge_change(SolutionGraph *sol,
+  SolutionGraphEdgeChange *change, void *context);
 
 /*
  Add an edge (u,v) to the solution graph and maintain transitive closure.
