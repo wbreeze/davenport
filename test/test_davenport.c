@@ -26,6 +26,7 @@ void test_davenport_create(void)
   clear_int_array(d->solution, node_ct);
   cut_assert_equal_int(INT_MAX, d->best_found);
   cut_assert_null(d->solution_callback);
+  cut_assert_equal_int(0, d->disagreement_ct);
   cut_assert_equal_int(0, d->cycle_lower_bounds);
 
   d = davenport_destroy(d);

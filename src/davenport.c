@@ -24,6 +24,12 @@ void accumulate_lower_bound(void *context, int *component, int member_ct)
   }
 }
 
+void dv_solution_edge_change(void *context, int u, int v, int dir)
+{
+  Davenport *d = (Davenport *)context;
+  d->disagreement_ct += dir * d->majority_graph[RCI(v,u,d->node_ct)];
+}
+
 Davenport *davenport_create(const int *majority_graph, int node_ct)
 {
   Davenport *d = malloc(sizeof(struct Davenport));
@@ -40,9 +46,12 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   d->solution = node_array_calloc(node_ct);
   d->best_found = INT_MAX;
   d->solution_callback = NULL;
+  d->disagreement_ct = 0;
   d->cycle_lower_bounds = 0;
 
   tarjan_set_component_callback(d->tarjan, &accumulate_lower_bound, d);
+  solution_graph_on_edge_change(d->solution_graph,
+    &dv_solution_edge_change, d);
 
   return d;
 }
@@ -119,18 +128,17 @@ int next_unaccounted_edge_offset(Davenport *d, int e_cur)
 */
 void dv_maybe_add_solution(Davenport *d)
 {
-  int disagreement_ct = solution_graph_disagreements(d->solution_graph);
-  if (disagreement_ct < d->best_found) {
-    d->best_found = disagreement_ct;
+  if (d->disagreement_ct < d->best_found) {
+    d->best_found = d->disagreement_ct;
     d->solution_ct = 0;
   }
-  if (disagreement_ct == d->best_found) {
+  if (d->disagreement_ct == d->best_found) {
     sort_nodes_topo(d->components, d->topo_sort, d->node_ct);
     solution_graph_rank_sort_items(
       d->solution_graph, d->topo_sort, d->solution);
     if (d->solution_callback != NULL) {
       d->solution_callback(
-        d->solution_context, d->solution, d->node_ct, disagreement_ct
+        d->solution_context, d->solution, d->node_ct, d->disagreement_ct
       );
     }
     d->solution_ct += 1;
@@ -148,8 +156,7 @@ void dv_extend_solution(Davenport *d)
   tarjan_identify_components(d->tarjan, d->components);
   int e_cur = next_unaccounted_edge_offset(d, 0);
   if (e_cur < d->edge_ct) {
-    int lower_bound = solution_graph_disagreements(d->solution_graph) +
-      d->cycle_lower_bounds;
+    int lower_bound = d->disagreement_ct + d->cycle_lower_bounds;
     if (lower_bound <= d->best_found)
     {
       while(e_cur < d->edge_ct) {
