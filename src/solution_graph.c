@@ -15,7 +15,6 @@ SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct)
 
   sol->node_ct = node_ct;
   sol->majority_graph = majority_graph;
-  sol->disagreement_count = 0;
   sol->solution = solution_array_calloc(node_ct);
   sol->set_point = 0;
   sol->edge_stack = edge_stack_calloc(node_ct);
@@ -52,7 +51,6 @@ void sg_set_edge(SolutionGraph *sol, int u, int v)
   if (sol->solution[edge_offset] == 0) {
     sol->solution[edge_offset] = 1;
     sol->edge_stack[sol->set_point++] = edge_offset;
-    sol->disagreement_count += sol->majority_graph[RCI(v,u,sol->node_ct)];
     sol->change(sol->change_context, u, v, 1);
   }
 }
@@ -87,7 +85,6 @@ void solution_graph_rollback(SolutionGraph *sol, int set_point) {
     sol->solution[edge_offset] = 0;
     int u = ROW(edge_offset, sol->node_ct);
     int v = COL(edge_offset, sol->node_ct);
-    sol->disagreement_count -= sol->majority_graph[RCI(v,u,sol->node_ct)];
     sol->change(sol->change_context, u, v, -1);
   }
 }
@@ -106,11 +103,6 @@ int solution_graph_modified_majority_edge(SolutionGraph *sol, int r, int c)
   return weight;
 }
 
-int solution_graph_disagreements(SolutionGraph *sol)
-{
-  return sol->disagreement_count;
-}
-
 void solution_graph_rank_sort_items(SolutionGraph *sol,
   const int *topological_sort, int *ranking)
 {
@@ -120,5 +112,4 @@ void solution_graph_rank_sort_items(SolutionGraph *sol,
 void solution_graph_printl(SolutionGraph *sol, char *message)
 {
   solution_array_printl(sol->solution, sol->node_ct, message);
-  printf("Disagreements: %d\n", sol->disagreement_count);
 }

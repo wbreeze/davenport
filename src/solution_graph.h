@@ -14,7 +14,6 @@ typedef void SolutionGraphEdgeChange(
 typedef struct SolutionGraph {
   int node_ct;
   const int *majority_graph;
-  int disagreement_count;
   unsigned char *solution;
   int set_point;
   int *edge_stack;
@@ -34,10 +33,7 @@ typedef struct SolutionGraph {
 
 /*
  Create a graph that tracks the current solution.
- The solution (virtually) modifies the provided majority graph when
-   an edge added directly, or indirectly through transitive closure,
-   is opposite to an edge in the majority graph. When that happens,
-   this adds that edge's weight to the total of disagreements.
+ The graph tracks order of edge addition so that it may be rolled back.
 */
 SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct);
 SolutionGraph *solution_graph_destroy(SolutionGraph *sol);
@@ -55,8 +51,7 @@ void solution_graph_on_edge_change(SolutionGraph *sol,
  We don't do any work if the edge is already in the graph.
  Returns a set_point that can be used with "solution_graph_rollback()"
    to put the solution graph in the state it had before this call.
- Updates the total weight of disagreements in the solution relative to
-   the majority graph.
+ Will invoke the edge addition and removal callback.
 */
 int solution_graph_add_edge(SolutionGraph *sol, int u, int v);
 
@@ -64,6 +59,7 @@ int solution_graph_add_edge(SolutionGraph *sol, int u, int v);
  Restore the solution graph to the state it was in before a call
    to "solution_graph_add_edge()".
  set_point value returned by a call made to add an edge
+ Will invoke the edge addition and removal callback.
 */
 void solution_graph_rollback(SolutionGraph *sol, int set_point);
 
@@ -80,13 +76,6 @@ unsigned char solution_graph_has_edge(SolutionGraph *sol, int u, int v);
  graph.
 */
 int solution_graph_modified_majority_edge(SolutionGraph *sol, int r, int c);
-
-/*
- Returns the current disagreement count, which is the total
- weight of edges in the majority graph that are opposite an edge in
- the solution graph.
-*/
-int solution_graph_disagreements(SolutionGraph *sol);
 
 /*
  Delegates with a call to rank_sorted_items().
