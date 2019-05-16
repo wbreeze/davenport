@@ -9,12 +9,11 @@
 */
 void sg_default_change(void *_c, int _u, int _v, int _dir) {};
 
-SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct)
+SolutionGraph *solution_graph_create(int node_ct)
 {
   SolutionGraph *sol = malloc(sizeof(SolutionGraph));
 
   sol->node_ct = node_ct;
-  sol->majority_graph = majority_graph;
   sol->solution = solution_array_calloc(node_ct);
   sol->set_point = 0;
   sol->edge_stack = edge_stack_calloc(node_ct);

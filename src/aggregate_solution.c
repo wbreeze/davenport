@@ -38,8 +38,7 @@ void aggregate_solution_add_solution(AggregateSolution *asol,
 
 int *aggregate_solution_ranking(AggregateSolution *asol)
 {
-  SolutionGraph *solution_graph = solution_graph_create(
-    asol->preference_graph, asol->node_ct);
+  SolutionGraph *solution_graph = solution_graph_create(asol->node_ct);
   int *topo_order = node_array_calloc(asol->node_ct);
   int *components = node_array_calloc(asol->node_ct);
   Tarjan *t = tarjan_create(&tarjan_default_edge_lookup,

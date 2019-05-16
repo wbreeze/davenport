@@ -23,8 +23,7 @@ void sg_test_edge_change(void *context, int u, int v, int dir)
 void test_solution_graph_change_notice_rollback(void)
 {
   const int node_ct = 5;
-  int *majority_graph = edge_array_calloc(node_ct);
-  SolutionGraph *sol = solution_graph_create(majority_graph, node_ct);
+  SolutionGraph *sol = solution_graph_create(node_ct);
   SGC sgc = {
     .up_count = 0,
     .dn_count = 0
@@ -42,14 +41,12 @@ void test_solution_graph_change_notice_rollback(void)
   cut_assert_equal_int(v, sgc.last_v);
 
   sol = solution_graph_destroy(sol);
-  free(majority_graph);
 }
 
 void test_solution_graph_change_notice_transitive(void)
 {
   const int node_ct = 5;
-  int *majority_graph = edge_array_calloc(node_ct);
-  SolutionGraph *sol = solution_graph_create(majority_graph, node_ct);
+  SolutionGraph *sol = solution_graph_create(node_ct);
   SGC sgc = {
     .up_count = 0,
     .dn_count = 0
@@ -75,5 +72,4 @@ void test_solution_graph_change_notice_transitive(void)
   cut_assert_equal_int(v, sgc.last_v);
 
   sol = solution_graph_destroy(sol);
-  free(majority_graph);
 }

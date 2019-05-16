@@ -6,8 +6,7 @@
 void test_ranking_order_sorted_complete(void)
 {
   const int node_ct = 5;
-  int *mg = edge_array_calloc(node_ct);
-  SolutionGraph *sol = solution_graph_create(mg, node_ct);
+  SolutionGraph *sol = solution_graph_create(node_ct);
   int topological_sort[node_ct] = { 0, 1, 2, 3, 4 };
 
   for (int i = 1; i < node_ct; ++i) {
@@ -21,14 +20,12 @@ void test_ranking_order_sorted_complete(void)
   assert_equal_int_array(expected, ranking, node_ct);
 
   solution_graph_destroy(sol);
-  free(mg);
 }
 
 void test_ranking_order_sorted_reverse(void)
 {
   const int node_ct = 5;
-  int *mg = edge_array_calloc(node_ct);
-  SolutionGraph *sol = solution_graph_create(mg, node_ct);
+  SolutionGraph *sol = solution_graph_create( node_ct);
   int topological_sort[node_ct] = { 4, 3, 2, 1, 0 };
 
   for (int i = node_ct - 1; 0 < i; --i) {
@@ -42,14 +39,12 @@ void test_ranking_order_sorted_reverse(void)
   assert_equal_int_array(expected, ranking, node_ct);
 
   solution_graph_destroy(sol);
-  free(mg);
 }
 
 void test_ranking_order_partial_two_second(void)
 {
   const int node_ct = 5;
-  int *mg = edge_array_calloc(node_ct);
-  SolutionGraph *sol = solution_graph_create(mg, node_ct);
+  SolutionGraph *sol = solution_graph_create(node_ct);
   int topological_sort[node_ct] = { 0, 1, 4, 3, 2 };
 
   solution_graph_add_edge(sol, 0, 1);
@@ -64,14 +59,12 @@ void test_ranking_order_partial_two_second(void)
   assert_equal_int_array(expected, ranking, node_ct);
 
   solution_graph_destroy(sol);
-  free(mg);
 }
 
 void test_ranking_order_partial_two_first_and_last(void)
 {
   const int node_ct = 5;
-  int *mg = edge_array_calloc(node_ct);
-  SolutionGraph *sol = solution_graph_create(mg, node_ct);
+  SolutionGraph *sol = solution_graph_create(node_ct);
   int topological_sort[node_ct] = { 4, 3, 1, 0, 2 };
 
   solution_graph_add_edge(sol, 1, 0);
@@ -86,14 +79,12 @@ void test_ranking_order_partial_two_first_and_last(void)
   assert_equal_int_array(expected, ranking, node_ct);
 
   solution_graph_destroy(sol);
-  free(mg);
 }
 
 void test_ranking_order_partial_two_roots(void)
 {
   const int node_ct = 5;
-  int *mg = edge_array_calloc(node_ct);
-  SolutionGraph *sol = solution_graph_create(mg, node_ct);
+  SolutionGraph *sol = solution_graph_create(node_ct);
   int topological_sort[node_ct] = { 4, 2, 1, 3, 0 };
 
   solution_graph_add_edge(sol, 2, 3);
@@ -108,5 +99,4 @@ void test_ranking_order_partial_two_roots(void)
   assert_equal_int_array(expected, ranking, node_ct);
 
   solution_graph_destroy(sol);
-  free(mg);
 }

@@ -13,7 +13,6 @@ typedef void SolutionGraphEdgeChange(
 
 typedef struct SolutionGraph {
   int node_ct;
-  const int *majority_graph;
   unsigned char *solution;
   int set_point;
   int *edge_stack;
@@ -35,7 +34,7 @@ typedef struct SolutionGraph {
  Create a graph that tracks the current solution.
  The graph tracks order of edge addition so that it may be rolled back.
 */
-SolutionGraph *solution_graph_create(const int *majority_graph, int node_ct);
+SolutionGraph *solution_graph_create(int node_ct);
 SolutionGraph *solution_graph_destroy(SolutionGraph *sol);
 
 /*

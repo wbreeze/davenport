@@ -38,7 +38,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   Davenport *d = malloc(sizeof(struct Davenport));
   d->node_ct = node_ct;
   d->majority_graph = majority_graph;
-  d->solution_graph = solution_graph_create(majority_graph, node_ct);
+  d->solution_graph = solution_graph_create(node_ct);
   d->components = node_array_calloc(node_ct);
   d->topo_sort = node_array_calloc(node_ct);
   d->edge_ct = 0;
