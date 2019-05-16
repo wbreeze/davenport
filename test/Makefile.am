@@ -36,7 +36,6 @@ test_davenport_la_SOURCES = \
   test_ranking.c \
   test_solution_graph.c \
   test_sol_change.c \
-  test_sol_mmaj.c \
   test_sol_rollback.c \
   test_sort_edges.c \
   test_sort_nodes.c \

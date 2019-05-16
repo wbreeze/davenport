@@ -70,14 +70,6 @@ void solution_graph_rollback(SolutionGraph *sol, int set_point);
 unsigned char solution_graph_has_edge(SolutionGraph *sol, int u, int v);
 
 /*
- Returns weight of an edge directed from u to v in the modified majority graph.
- The rule is that, if the edge exists in the majority graph and the opposite
- edge is not in the solution graph, then the edge is in the modified majority
- graph.
-*/
-int solution_graph_modified_majority_edge(SolutionGraph *sol, int r, int c);
-
-/*
  Delegates with a call to rank_sorted_items().
  Find the description in ranking.h
 */

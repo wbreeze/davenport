@@ -8,19 +8,22 @@
 #include "sorting.h"
 #include "tarjan.h"
 
-int modified_majority_edge_lookup(void *context, int u, int v, int node_ct)
+int dv_modified_majority_edge_lookup(void *context, int u, int v, int node_ct)
 {
-  SolutionGraph *sol = (SolutionGraph *)context;
-  return solution_graph_modified_majority_edge(sol, u, v);
+  Davenport *d = (Davenport *)context;
+  int weight = 0;
+  if (!solution_graph_has_edge(d->solution_graph, v, u)) {
+    weight = d->majority_graph[RCI(u,v,d->node_ct)];
+  }
+  return weight;
 }
 
-void accumulate_lower_bound(void *context, int *component, int member_ct)
+void dv_accumulate_lower_bound(void *context, int *component, int member_ct)
 {
   if (1 < member_ct) {
     Davenport *d = (Davenport *)context;
     d->cycle_lower_bounds += compute_bound_edge_lookup(
-      modified_majority_edge_lookup, d->solution_graph,
-      d->node_ct, component, member_ct);
+      &dv_modified_majority_edge_lookup, d, d->node_ct, component, member_ct);
   }
 }
 
@@ -40,8 +43,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   d->topo_sort = node_array_calloc(node_ct);
   d->edge_ct = 0;
   d->edge_list = calloc(DG_ECT(node_ct), sizeof(int));
-  d->tarjan = tarjan_create(modified_majority_edge_lookup,
-    d->solution_graph, node_ct);
+  d->tarjan = tarjan_create(&dv_modified_majority_edge_lookup, d, node_ct);
   d->solution_ct = 0;
   d->solution = node_array_calloc(node_ct);
   d->best_found = INT_MAX;
@@ -49,7 +51,7 @@ Davenport *davenport_create(const int *majority_graph, int node_ct)
   d->disagreement_ct = 0;
   d->cycle_lower_bounds = 0;
 
-  tarjan_set_component_callback(d->tarjan, &accumulate_lower_bound, d);
+  tarjan_set_component_callback(d->tarjan, &dv_accumulate_lower_bound, d);
   solution_graph_on_edge_change(d->solution_graph,
     &dv_solution_edge_change, d);
 

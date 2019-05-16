@@ -94,15 +94,6 @@ unsigned char solution_graph_has_edge(SolutionGraph *sol, int r, int c)
    return sol->solution[RCI(r,c,sol->node_ct)];
 }
 
-int solution_graph_modified_majority_edge(SolutionGraph *sol, int r, int c)
-{
-  int weight = 0;
-  if (sol->solution[RCI(c,r,sol->node_ct)] == 0) {
-    weight = sol->majority_graph[RCI(r,c,sol->node_ct)];
-  }
-  return weight;
-}
-
 void solution_graph_rank_sort_items(SolutionGraph *sol,
   const int *topological_sort, int *ranking)
 {
