@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([Davenport], [0.1.0], [https://github.com/wbreeze/davenport/issues])
+AC_INIT([Davenport],[0.1.0],[https://github.com/wbreeze/davenport/issues])
 AC_CONFIG_SRCDIR([src])
 AC_CONFIG_MACRO_DIRS([m4])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
@@ -12,7 +12,7 @@ LT_INIT
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_CC_C99
-AC_PROG_LIBTOOL
+LT_INIT
 
 # Checks for libraries
 AC_CHECK_CUTTER

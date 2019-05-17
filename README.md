@@ -40,6 +40,19 @@ To run tests:
 - `cd test` (optional)
 - `make check`
 
+### Development
+
+Use:
+- `autoconf --install`
+- `./configure`
+- `make`
+
+To see the cutter output from the tests, either:
+- `make check`
+- `cat test/run_test.sh.log`
+or
+- `test/run_test.sh`
+
 ## Performance and Memory
 
 In the following,
