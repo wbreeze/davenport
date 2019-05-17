@@ -5,7 +5,7 @@ noinst_LTLIBRARIES = test_davenport.la
 
 test_davenport_la_CPPFLAGS = $(CUTTER_CFLAGS) -I $(top_srcdir)/src
 
-LIBS = $(CUTTER_LIBS) $(top_builddir)/src/libdavenport.la
+test_davenport_la_LIBADD = $(CUTTER_LIBS) $(top_builddir)/src/libdavenport.la
 
 AM_LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined
 
@@ -45,8 +45,6 @@ test_davenport_la_SOURCES = \
   test_tarjan_impl.c \
   test_tarjan_mmaj.c \
   test_tarjan_topo.c
-
-test_davenport_la_LIBADD = $(top_builddir)/src/libdavenport.la
 
 #config.status: error: in `/Users/dcl/Documents/p.temp/stack':
 #config.status: error: Something went wrong bootstrapping makefile fragments
