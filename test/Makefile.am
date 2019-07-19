@@ -10,6 +10,7 @@ test_davenport_la_LIBADD = $(CUTTER_LIBS) $(top_builddir)/src/libdavenport.la
 AM_LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined
 
 test_davenport_la_SOURCES = \
+  array_init.c \
   test_aggregate_solution.c \
   test_helper.c \
   test_helper_nets.c \
