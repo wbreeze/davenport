@@ -1,6 +1,7 @@
 #include <cutter.h>
 #include "../src/network.h"
 #include "../src/sorting.h"
+#include "array_init.h"
 #include "test_helper.h"
 
 void test_sort_edges_1(void) {
@@ -33,11 +34,14 @@ void test_sort_edges_2(void) {
   const int edge_ct = 12;
   const int select_ct = 6;
 
-  int edges[edge_ct] = { 1, 3, 5, 7, 9, 11, 2, 3, 4, 5, 6, 12 };
-  int selection[select_ct] = { 0, 2, 4, 6, 8, 10 };
+  int edges[edge_ct];
+  int_array_init(edges, edge_ct, 1, 3, 5, 7, 9, 11, 2, 3, 4, 5, 6, 12);
+  int selection[select_ct];
+  int_array_init(selection, select_ct, 0, 2, 4, 6, 8, 10);
   sort_edge_selection(edges, selection, select_ct);
 
-  int expected[select_ct] = { 4, 10, 2, 8, 6, 0 };
+  int expected[select_ct];
+  int_array_init(expected, select_ct, 4, 10, 2, 8, 6, 0);
   assert_equal_int_array(expected, selection, select_ct);
 }
 

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "../src/davenport.h"
 #include "../src/network.h"
+#include "array_init.h"
 #include "test_helper.h"
 #include "test_davenport.h"
 
@@ -16,7 +17,8 @@ void test_initialize_elist_pentagon_2(void)
 
   const int edge_ct = 7;
   cut_assert_equal_int(edge_ct, d->edge_ct);
-  int expected_weights[edge_ct] = { 3, 3, 3, 2, 2, 2, 2 };
+  int expected_weights[edge_ct];
+  int_array_init(expected_weights, edge_ct, 3, 3, 3, 2, 2, 2, 2);
   for (int i = 0; i < edge_ct; ++ i)
     cut_assert_equal_int(expected_weights[i], majority_graph[d->edge_list[i]]);
 }
