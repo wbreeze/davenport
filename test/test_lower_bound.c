@@ -1,6 +1,7 @@
 #include <cutter.h>
-#include "test_helper.h"
 #include "../src/network.h"
+#include "array_init.h"
+#include "test_helper.h"
 #include "test_lower_bound.h"
 
 void populate_connected_component(int *majority, int node_ct, int offset)
@@ -66,9 +67,10 @@ void test_lb_network_init_capacities(void)
   int offset = 2;
   int *majority = edge_array_calloc(node_ct);
   populate_connected_component(majority, node_ct, offset);
-  const int component[component_ct] = {
+  int component[component_ct];
+  int_array_init(component, component_ct,
     offset, offset + 1, offset + 2, offset + 3, offset + 4
-  };
+  );
   LBNetwork *lb_net = lb_network_new(component_ct);
 
   lb_network_init_capacities(lb_net, &lower_bound_edge_lookup,
@@ -97,7 +99,8 @@ void test_lb_network_init_for_pass(void)
   const int component_ct = 5;
   int *majority = edge_array_calloc(node_ct);
   populate_connected_component(majority, node_ct, 0);
-  const int component[component_ct] = {0, 1, 2, 3, 4};
+  int component[component_ct];
+  int_array_init(component, component_ct, 0, 1, 2, 3, 4);
   LBNetwork *lb_net = lb_network_new(component_ct);
   int u = 0;
 
@@ -138,7 +141,8 @@ void test_lb_network_init_for_pass(void)
 void test_lb_network_update_from_pass(void)
 {
   const int component_ct = 5;
-  const int component[component_ct] = {0, 1, 2, 3, 4};
+  int component[component_ct];
+  int_array_init(component, component_ct, 0, 1, 2, 3, 4);
   LBNetwork *lb_net = lb_network_new(component_ct);
   int u = 0;
 
@@ -169,7 +173,8 @@ void test_lower_bound_majority_1(void)
   const int component_ct = 5;
   int *majority = edge_array_calloc(node_ct);
   populate_connected_component(majority, node_ct, 0);
-  const int component[component_ct] = {0, 1, 2, 3, 4};
+  int component[component_ct];
+  int_array_init(component, component_ct, 0, 1, 2, 3, 4);
 
   int lower_bound = compute_lower_bound(majority, node_ct,
     component, component_ct);
@@ -185,9 +190,10 @@ void test_lower_bound_majority_2(void)
   int offset = 2;
   int *majority = edge_array_calloc(node_ct);
   populate_connected_component(majority, node_ct, offset);
-  const int component[component_ct] = {
+  int component[component_ct];
+  int_array_init(component, component_ct,
     offset, offset + 1, offset + 2, offset + 3, offset + 4
-  };
+  );
   draw_majority(majority, node_ct, 0, 1);
   draw_majority(majority, node_ct, 1, 1);
   for (int from = 0; from < (node_ct - 1); ++from) {
