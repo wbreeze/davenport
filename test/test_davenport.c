@@ -10,7 +10,7 @@
 
 void test_davenport_create(void)
 {
-  int node_ct = 4;
+  const int node_ct = 4;
   int *majority_graph = edge_array_calloc(node_ct);
 
   Davenport *d = davenport_create(majority_graph, node_ct);
@@ -45,7 +45,9 @@ void test_davenport_compute_small_no_cycles(void)
 
   cut_assert_equal_int(1, solution_ct);
   cut_assert_equal_int(1, d->solution_ct);
-  const int expected[node_ct] = {1, 2, 3, 4};
+  int expected[node_ct];
+  int *p = expected;
+  *p++ = 1; *p++ = 2; *p++ = 3; *p++ = 4;
   int *solution = davenport_last_solution(d);
   assert_equal_int_array(expected, solution, node_ct);
 
@@ -65,7 +67,9 @@ void test_davenport_compute_partial_no_cycles(void)
 
   cut_assert_equal_int(1, solution_ct);
   cut_assert_equal_int(1, d->solution_ct);
-  const int expected[node_ct] = {1, 2, 2, 4};
+  int expected[node_ct];
+  int *p = expected;
+  *p++ = 1; *p++ = 2; *p++ = 2; *p++ = 4;
   int *solution = davenport_last_solution(d);
   assert_equal_int_array(expected, solution, node_ct);
 
