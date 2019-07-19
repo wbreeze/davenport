@@ -5,6 +5,7 @@
 #include "../src/davenport.h"
 #include "../src/network.h"
 #include "test_helper.h"
+#include "array_init.h"
 #include "test_davenport.h"
 #include "test_davenport_callback_context.h"
 
@@ -46,8 +47,7 @@ void test_davenport_compute_small_no_cycles(void)
   cut_assert_equal_int(1, solution_ct);
   cut_assert_equal_int(1, d->solution_ct);
   int expected[node_ct];
-  int *p = expected;
-  *p++ = 1; *p++ = 2; *p++ = 3; *p++ = 4;
+  int_array_init(expected, node_ct, 1, 2, 3, 4);
   int *solution = davenport_last_solution(d);
   assert_equal_int_array(expected, solution, node_ct);
 
@@ -68,8 +68,7 @@ void test_davenport_compute_partial_no_cycles(void)
   cut_assert_equal_int(1, solution_ct);
   cut_assert_equal_int(1, d->solution_ct);
   int expected[node_ct];
-  int *p = expected;
-  *p++ = 1; *p++ = 2; *p++ = 2; *p++ = 4;
+  int_array_init(expected, node_ct, 1, 2, 2, 4);
   int *solution = davenport_last_solution(d);
   assert_equal_int_array(expected, solution, node_ct);
 

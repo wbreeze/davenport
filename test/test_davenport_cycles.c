@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../src/davenport.h"
 #include "../src/network.h"
+#include "array_init.h"
 #include "test_helper.h"
 #include "test_davenport.h"
 #include "test_davenport_callback_context.h"
@@ -61,7 +62,8 @@ void test_davenport_compute_multi_cycle_embedded(void)
 
   cut_assert_equal_int(cbx.seen_solution_ct, solution_ct);
   cut_assert_equal_int(cbx.seen_solution_ct, d->solution_ct);
-  const int expected[node_ct] = {1, 3, 4, 2, 5, 6, 7, 8};
+  int expected[node_ct];
+  int_array_init(expected, node_ct, 1, 3, 4, 2, 5, 6, 7, 8);
   int *solution = davenport_last_solution(d);
   assert_equal_int_array(expected, solution, node_ct);
 
@@ -90,7 +92,8 @@ void test_davenport_compute_two_embedded_cycles(void)
 
   cut_assert_equal_int(cbx.seen_solution_ct, solution_ct);
   cut_assert_equal_int(cbx.seen_solution_ct, d->solution_ct);
-  const int expected[node_ct] = {1, 4, 5, 6, 7, 8, 1, 3};
+  int expected[node_ct];
+  int_array_init(expected, node_ct, 1, 4, 5, 6, 7, 8, 1, 3);
   int *solution = davenport_last_solution(d);
   assert_equal_int_array(expected, solution, node_ct);
 

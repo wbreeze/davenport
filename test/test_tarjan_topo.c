@@ -1,4 +1,5 @@
 #include <cutter.h>
+#include "array_init.h"
 #include "test_helper.h"
 #include "../src/network.h"
 #include "../src/tarjan.h"
@@ -14,7 +15,8 @@ void test_tarjan_topo_partial_no_cycles(void)
   tarjan_identify_components(t, components);
   t = tarjan_destroy(t);
 
-  int expected[node_ct] = { 4, 2, 3, 1 };
+  int expected[node_ct];
+  int_array_init(expected, node_ct, 4, 2, 3, 1);
   assert_equal_int_array(expected, components, node_ct);
 
   free(components);
@@ -32,7 +34,8 @@ void test_tarjan_topo_no_cycles(void)
   tarjan_identify_components(t, components);
   t = tarjan_destroy(t);
 
-  int expected[node_ct] = { 4, 3, 2, 1 };
+  int expected[node_ct];
+  int_array_init(expected, node_ct, 4, 3, 2, 1);
   assert_equal_int_array(expected, components, node_ct);
 
   free(components);
@@ -50,7 +53,8 @@ void test_tarjan_topo_two_embedded_cycles(void)
   tarjan_identify_components(t, components);
   t = tarjan_destroy(t);
 
-  int expected[node_ct] = { 8, 5, 5, 5, 2, 2, 2, 1 };
+  int expected[node_ct];
+  int_array_init(expected, node_ct, 8, 5, 5, 5, 2, 2, 2, 1);
   assert_equal_int_array(expected, components, node_ct);
 
   free(components);
