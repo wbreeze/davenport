@@ -29,12 +29,32 @@ As such, it contains:
 - an implementation of Tarjan's algorithm for finding components and
   their topological sort.
 
+## Installing
+
+This library is installed from source. You will need to already have
+installed `git`, the GNU autoconf tools, and a C compiler. Currently
+you need to have installed
+[Cutter](http://cutter.sourceforge.net/reference/install.html)
+as well. (There is
+[an issue](https://github.com/wbreeze/davenport/issues/16)
+to remove that requirement.)
+Given those:
+
+- Check-out the source, `git clone https://github.com/wbreeze/davenport.git`
+- Change to the resulting `davenport` directory, `cd davenport`
+- Generate the `configure` file, `autoreconf --install`
+- Run the `configure` file, `./configure`
+- Run the installation script as root, `make install`
+
+On some systems, including Debian and Ubuntu Linux, you must now
+
+- Refresh the shared library loader as root, `ldconfig /usr/local/lib`
+
 ## Building
 
-This follows the GNU AutoConf convention. From the root of the source tree
-(e.g. ~/Davenport):
-- `./configure`
-- `make`
+This follows the GNU AutoConf convention. With the exception of the
+`make` command, the process is the same as Installing (above).
+For the `make` command, just type "make" rather than "make install".
 
 To run tests:
 - `cd test` (optional)
@@ -42,10 +62,7 @@ To run tests:
 
 ### Development
 
-Use:
-- `autoconf --install`
-- `./configure`
-- `make`
+Build as above
 
 To see the cutter output from the tests, either:
 - `make check`
