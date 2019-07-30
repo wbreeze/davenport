@@ -50,6 +50,29 @@ On some systems, including Debian and Ubuntu Linux, you must now
 
 - Refresh the shared library loader as root, `ldconfig /usr/local/lib`
 
+### I don't have root access
+
+One option is to have someone who does install it for you.
+Another (untested) option, assuming most of the basic requirements,
+such as `git`, `autoconf`, and a C compiler are installed on the system,
+is to install it locally and use the `LD_LIBRARY_PATH` environment
+variable to lead the linker to the library:
+
+```
+> mkdir -p ${HOME}/local
+> export LOCAL_LIBS=${HOME}/local
+> autoreconf --install
+> ./configure --prefix=$LOCAL_LIBS
+> make install
+> export LD_LIBRARY_PATH=${LOCAL_LIBS}/lib/:${LD_LIBRARY_PATH}
+```
+
+Consider putting the last export into your shell startup.
+You will probably have to do something similar first, to install the
+Cutter library. It will be a pain. There's a question and answer
+about installing libraries locally
+[at SuperUser](https://superuser.com/q/324613).
+
 ## Building
 
 This follows the GNU AutoConf convention. With the exception of the
