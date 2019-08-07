@@ -21,6 +21,12 @@ may be found on Wikipedia as "[Kemeny-Young method][kym]".
 Numerical Recipes contains a [C++ implementation][kycpp]
 of a stochastic approximation algorithm.
 
+You can find another description
+of the method and the algorithm on
+[wind and water](https://wnw.wbreeze.com/2019/08/davenport.html).
+The post following that one describes the motivation for
+and development of this code base.
+
 This implementation has no dependencies on any big libraries.
 As such, it contains:
 - a taylored implementation of an algorithm for maximum flow through a network.
