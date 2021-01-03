@@ -31,6 +31,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
   Makefile
   src/Makefile
+  src/cmdline/Makefile
   test/Makefile
 ])
 AC_OUTPUT
