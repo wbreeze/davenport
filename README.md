@@ -79,6 +79,12 @@ Cutter library. It will be a pain. There's a question and answer
 about installing libraries locally
 [at SuperUser](https://superuser.com/q/324613).
 
+## Command line driver
+The installation includes a command line program, "davenport".
+Further information may be found in the
+[README](src/cmdline/README.md) for that program.
+Find the source at [src/cmdline](src/cmdline).
+
 ## Building
 
 This follows the GNU AutoConf convention. With the exception of the
