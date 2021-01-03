@@ -3,7 +3,7 @@ The command line driver will run the Davenport algorithm using a text file
 as input.
 
 The format for the input text file is:
----
+```
 if <= pref if |
       pref
 pref <= label OP prefs NL
@@ -12,17 +12,17 @@ prefs <= label OP prefs |
 label <= <% any characters other than '>' '=' %>
 OP : [ '>' | '=' ]
 NL : "\n"
----
+```
 
 Here is an example input:
----
+```
 9>2>3>8>5>7=1=4=0=6
 4>9>0>6>3>2>5>1>7>8
 5>3>2>4>8=7>1>9>0>6
 1>4>7=2>5>0>8>6>9>3
 4>5>8>1>6>3>0>2>9>7
 5>1>0>8>2>4>7>3>9=6
----
+```
 
 Each line expresses one preference.
 A preference consists of option labels in preference order, separated by
@@ -30,7 +30,7 @@ A preference consists of option labels in preference order, separated by
 joined by the '=' are equally preferred.
 
 Here is a sample run:
----
+```
 src/cmdline[i19]$ echo "aoeunth>rcgoeu=tnhj>nthaoeu" | ./davenport
 This is Davenport 0.1.0.
 Label aoeunth has index 0
@@ -59,4 +59,4 @@ At rank    2: rcgoeu = tnhj
 At rank    3:
 At rank    4: nthaoeu
 src/cmdline[i19]$ 
----
+```
