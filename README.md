@@ -1,5 +1,3 @@
-![Travis build status][travis]
-
 This is an implementation of Davenport's algorithm for computing
 a preference order using the Kemeny rule [(1)][kemeny]
 for preference aggregation.
