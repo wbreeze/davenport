@@ -46,7 +46,6 @@ Given those:
 
 - Check-out the source, `git clone https://github.com/wbreeze/davenport.git`
 - Change to the resulting `davenport` directory, `cd davenport`
-- Generate the `configure` file, `autoreconf --install`
 - Run the `configure` file, `./configure`
 - Run the installation script as root, `make install`
 
@@ -70,18 +69,20 @@ variable to lead the linker to the library:
 > make install
 > export LD_LIBRARY_PATH=${LOCAL_LIBS}/lib/:${LD_LIBRARY_PATH}
 ```
-
+-
 Consider putting the last export into your shell startup.
 You will probably have to do something similar first, to install the
 Cutter library. It will be a pain. There's a question and answer
 about installing libraries locally
 [at SuperUser](https://superuser.com/q/324613).
 
-## Command line driver
+Also see the [INSTALL](INSTALL) file generted from GNU Autoconf.
+
+### Command line driver
 The installation includes a command line program, "davenport".
 Further information may be found in the
-[README](src/cmdline/README.md) for that program.
-Find the source at [src/cmdline](src/cmdline).
+[README](cmdline/README.md) for that program.
+Find the source at [cmdline](cmdline).
 
 ## Building
 
@@ -95,7 +96,11 @@ To run tests:
 
 ### Development
 
-Build as above
+When developing, you can use the `bootstrap` script together with the
+generated `configure` script.
+
+- `./bootstrap`
+- `./configure`
 
 To see the cutter output from the tests, either:
 - `make check`

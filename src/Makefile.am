@@ -1,4 +1,3 @@
-SUBDIRS = cmdline
 lib_LTLIBRARIES = libdavenport.la
 nobase_include_HEADERS = \
   davenport/aggregate_solution.h \
