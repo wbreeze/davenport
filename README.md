@@ -47,6 +47,7 @@ Given those:
 - Check-out the source, `git clone https://github.com/wbreeze/davenport.git`
 - Change to the resulting `davenport` directory, `cd davenport`
 - Run the `configure` file, `./configure`
+- Change to the `src` directory
 - Run the installation script as root, `make install`
 
 On some systems, including Debian and Ubuntu Linux, you must now
@@ -79,7 +80,11 @@ about installing libraries locally
 Also see the [INSTALL](INSTALL) file generted from GNU Autoconf.
 
 ### Command line driver
-The installation includes a command line program, "davenport".
+The installation includes a command line program, "davenport"
+whose source is in the `cmdline` directory.
+After compiling the library using `make` in the `src` directory you can
+compile the command line program using `make` in the `cmdline` directory.
+
 Further information may be found in the
 [README](cmdline/README.md) for that program.
 Find the source at [cmdline](cmdline).
