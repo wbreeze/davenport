@@ -36,17 +36,21 @@ As such, it contains:
 ## Installing
 
 This library is installed from source. You will need to already have
-installed `git`, the GNU autoconf tools, and a C compiler. Currently
-you need to have installed
-[Cutter](http://cutter.sourceforge.net/reference/install.html)
-as well. (There is
-[an issue](https://github.com/wbreeze/davenport/issues/16)
-to remove that requirement.)
-Given those:
+installed:
+- `git`,
+- the GNU autoconf tools,
+  - On MacOS with Homebrew, `brew install autoconf automake libtool`
+- a C compiler.
+- Currently you need to have installed [Cutter](
+  https://github.com/clear-code/cutter/) as well.
+  - (There is [an issue](https://github.com/wbreeze/davenport/issues/16)
+    to remove that requirement.)
+  - On MacOS with Homebrew, `brew install --cask cutter`
 
+Given those:
 - Check-out the source, `git clone https://github.com/wbreeze/davenport.git`
 - Change to the resulting `davenport` directory, `cd davenport`
-- Run the `configure` file, `./configure`
+- Run the `bootstrap` script
 - Change to the `src` directory
 - Run the installation script as root, `make install`
 
