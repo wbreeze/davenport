@@ -1,5 +1,7 @@
 #! /bin/sh
-
+mkdir -p m4
 aclocal \
+&& autoconf \
+&& autoreconf -i \
 && automake --gnu --add-missing \
 && autoconf
